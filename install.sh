@@ -28,3 +28,6 @@ sudo pip3 install -U setuptools
 
 # Other dependencies
 sudo apt install libuvc0
+
+# Tensorflow and dependencies
+sudo pip3 install -U tensorflow

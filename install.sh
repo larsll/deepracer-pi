@@ -27,7 +27,7 @@ sudo apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-
 sudo pip3 install -U "setuptools<=65.6.3" pip
 
 # Other dependencies
-sudo apt install libuvc0
+sudo apt install -y libuvc0
 
 # Tensorflow and dependencies
 sudo pip3 install -U "tensorflow<2.11" "tensorboard<2.11" "numpy<1.20" "cython<3"
@@ -56,3 +56,16 @@ cd deepracer-scripts
 # Get mxcam
 cd ~/
 git clone https://github.com/doitaljosh/geocam-bin-armhf
+
+# Switch nameserver
+sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+echo "DNSStubListener=no" | sudo tee -a /etc/systemd/resolved.conf
+sudo systemctl restart systemd-resolved
+
+# Prerequisite for Deepracer
+sudo apt install -y python-apt dnsmasq isc-dhcp-server nginx nginx-extras apache2-utils
+
+sudo cp deepracer.asc /etc/apt/trusted.gpg.d/
+sudo cp aws_deepracer.list /etc/apt/sources.list.d/
+sudo apt-get update
+

@@ -54,8 +54,3 @@ cd $DIR/deps/
 git clone https://github.com/davidfsmith/deepracer-scripts
 cd deepracer-scripts
 ./dev-stack-build.sh
-
-# Get mxcam
-cd $DIR/deps/
-git clone https://github.com/doitaljosh/geocam-bin-armhf
-

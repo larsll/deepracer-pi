@@ -8,6 +8,10 @@ sudo cp $DIR/files/deepracer.asc /etc/apt/trusted.gpg.d/
 sudo cp $DIR/files/aws_deepracer.list /etc/apt/sources.list.d/
 sudo apt-get update
 
+# Get mxcam
+cd $DIR/deps/
+git clone https://github.com/doitaljosh/geocam-bin-armhf
+
 rm -rf $DIR/pkg-build
 mkdir -p $DIR/pkg-build
 cd $DIR/pkg-build

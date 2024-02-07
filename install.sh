@@ -33,7 +33,7 @@ sudo apt install -y libuvc0
 # Tensorflow and dependencies
 sudo pip3 install -U "numpy<1.20" "cython<3"
 gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
-sudo pip3 install tensorflow*.deb 
+sudo pip3 install tensorflow*.whl
 
 # Compile and Install OpenVINO
 source openvino-build.sh

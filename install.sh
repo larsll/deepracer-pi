@@ -68,7 +68,7 @@ sudo systemctl restart systemd-resolved
 # Prerequisite for Deepracer
 sudo apt install -y python-apt dnsmasq isc-dhcp-server nginx nginx-extras apache2-utils
 
-sudo cp deepracer.asc /etc/apt/trusted.gpg.d/
-sudo cp aws_deepracer.list /etc/apt/sources.list.d/
+sudo cp ~/deepracer-pi/deepracer.asc /etc/apt/trusted.gpg.d/
+sudo cp ~/deepracer-pi/aws_deepracer.list /etc/apt/sources.list.d/
 sudo apt-get update
 

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-export DIR="$(dirname $SCRIPT_DIR)"
+export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 # DeepRacer Repos
 sudo cp $DIR/files/deepracer.asc /etc/apt/trusted.gpg.d/
 sudo cp $DIR/files/aws_deepracer.list /etc/apt/sources.list.d/
 sudo apt-get update
 
-mkdir -p $DIR/build
-cd $DIR/build
+rm -rf $DIR/pkg-build
+mkdir -p $DIR/pkg-build
+cd $DIR/pkg-build
 mkdir -p aws-deepracer-util aws-deepracer-device-console aws-deepracer-core aws-deepracer-sample-models
 apt download aws-deepracer-util:amd64 aws-deepracer-device-console:amd64 aws-deepracer-core:amd64 aws-deepracer-sample-models:amd64
 

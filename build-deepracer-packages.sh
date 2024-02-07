@@ -19,8 +19,11 @@ rm -rf $DIR/pkg-build
 mkdir -p $DIR/pkg-build
 cd $DIR/pkg-build
 mkdir -p aws-deepracer-util aws-deepracer-device-console aws-deepracer-core aws-deepracer-sample-models
+
+echo -e '\n### Downloading original packages ###\n'
 apt download aws-deepracer-util:amd64 aws-deepracer-device-console:amd64 aws-deepracer-core:amd64 aws-deepracer-sample-models:amd64
 
+echo -e '\n### Building aws-deepracer-util ###\n'
 dpkg-deb -R aws-deepracer-util_*amd64.deb aws-deepracer-util
 cd aws-deepracer-util
 rm -rf opt/aws/deepracer/camera/installed/bin/mxuvc \
@@ -32,15 +35,17 @@ cd ..
 dpkg-deb -b aws-deepracer-util
 dpkg-name -o aws-deepracer-util.deb
 
+echo -e '\n### Building aws-deepracer-device-console ###\n'
 dpkg-deb -R aws-deepracer-device-console_*amd64.deb aws-deepracer-device-console
 cd aws-deepracer-device-console
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
-echo "/opt/aws/deepracer/nginx/nginx_install_certs.sh" | tee -a DEBIAN/postinst
-echo "systemctl status nginx.service" | tee -a DEBIAN/postinst
+echo "/opt/aws/deepracer/nginx/nginx_install_certs.sh" | tee -a DEBIAN/postinst >/dev/null
+echo "systemctl status nginx.service" | tee -a DEBIAN/postinst >/dev/null
 cd ..
 dpkg-deb -b aws-deepracer-device-console
 dpkg-name -o aws-deepracer-device-console.deb
 
+echo -e '\n### Building aws-deepracer-core ###\n'
 dpkg-deb -R aws-deepracer-core_*amd64.deb aws-deepracer-core
 cd aws-deepracer-core
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
@@ -53,6 +58,7 @@ cd ..
 dpkg-deb -b aws-deepracer-core
 dpkg-name -o aws-deepracer-core.deb
 
+echo -e '\n### Building aws-deepracer-sample-models ###\n'
 dpkg-deb -R aws-deepracer-sample-models_*amd64.deb aws-deepracer-sample-models
 cd aws-deepracer-sample-models
 sed -i 's/Architecture: amd64/Architecture: all/' DEBIAN/control

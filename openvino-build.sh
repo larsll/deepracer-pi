@@ -33,4 +33,4 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 -DPYTHON_INCLUDE_DIR=/usr/include/python3.8 \
 -DCMAKE_CXX_FLAGS=-latomic ..
 
-make -j4 
+make -j4

@@ -1,4 +1,5 @@
 #/usr/bin/env bash
+set -e
 
 # From https://medium.com/@nullbyte.in/raspberry-pi-4-ubuntu-20-04-lts-ros2-a-step-by-step-guide-to-installing-the-perfect-setup-57c523f9d790
 sudo apt update && sudo apt install locales --no-install-recommends

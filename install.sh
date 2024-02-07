@@ -21,19 +21,22 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 sudo apt update && sudo apt -y upgrade
 
 # Install ROS Core and Development Tools
-sudo apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-pip python3-opencv python3-websocket python3-colcon-common-extensions python3-rosinstall --no-install-recommends
+sudo apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-pip libopencv-dev libjsoncpp-dev libhdf5-dev \
+		python3-opencv python3-websocket python3-colcon-common-extensions python3-rosinstall --no-install-recommends
 
 # Update Python
-sudo pip3 install -U "setuptools<=65.6.3" pip
+sudo pip3 install -U "setuptools<50" pip gdown
 
 # Other dependencies
 sudo apt install libuvc0
 
 # Tensorflow and dependencies
-sudo pip3 install -U "tensorflow<2.11" "tensorboard<2.11" "numpy<1.20" "cython<3"
+sudo pip3 install -U "numpy<1.20" "cython<3"
+gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
+sudo pip3 install tensorflow*.deb 
 
 # Compile and Install OpenVINO
-bash openvino-build.sh
+source openvino-build.sh
 sudo mkdir -p /opt/intel
 cd ~/openvino/build/ && sudo make install
 sudo ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021

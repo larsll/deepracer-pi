@@ -9,9 +9,9 @@ git submodule update --init --recursive
 sh ./install_build_dependencies.sh
 cd ~/openvino/inference-engine/ie_bridges/python/
 
-pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
-export OpenCV_DIR=/aarch64-linux-gnu/cmake/opencv4
+export OpenCV_DIR=/usr/lib/aarch64-linux-gnu/cmake/opencv4
 
 cd ~/openvino
 
@@ -24,7 +24,7 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 -DENABLE_GNA=OFF \
 -DENABLE_SSE42=OFF \
 -DTHREADING=SEQ \
--DENABLE_OPENCV=OFF \
+-DENABLE_OPENCV=ON \
 -DNGRAPH_PYTHON_BUILD_ENABLE=ON \
 -DNGRAPH_ONNX_IMPORT_ENABLE=ON \
 -DENABLE_PYTHON=ON \

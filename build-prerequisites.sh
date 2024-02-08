@@ -24,7 +24,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 
 # Install ROS Core and Development Tools
 sudo apt -y update && apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-pip libopencv-dev libjsoncpp-dev libhdf5-dev \
-		python3-opencv python3-websocket python3-colcon-common-extensions python3-rosinstall cython3 libuvc0 
+		python3-opencv python3-websocket python3-colcon-common-extensions python3-rosinstall cython3 libuvc0 libboost-all-dev ros-foxy-cv-bridge ros-foxy-image-transport ros-foxy-compressed-image-transport ros-foxy-pybind11-vendor ffmpeg ros-foxy-test-msgs
 
 # Install venv
 apt -m venv --prompt dr-build .venv
@@ -33,9 +33,20 @@ pip3 install -U "setuptools<50" pip gdown
 
 # Tensorflow and dependencies
 cd $DIR/deps/
-pip3 install -U "numpy<1.19"
 gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
-pip3 install tensorflow*.whl
+pip3 install pyudev \
+    "flask<3" \
+    flask_cors \
+    flask_wtf \
+    pam \
+    networkx \
+    unidecode \
+    defusedxml \
+    pyserial \
+    tensorflow*.whl \
+	"numpy<1.20" \
+	"protobuf~=3.20" \
+	"tensorboard~=2.4.0"
 
 # Compile and Install OpenVINO
 source build-openvino.sh
@@ -47,10 +58,13 @@ sudo ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
 # Init ROS
 sudo rosdep init
 sudo rosdep fix-permissions
-rosdep update --include-eol-distros
+rosdep update --rosdistro=foxy
 
 # Install deepracer-scripts
 cd $DIR/deps/
 git clone https://github.com/davidfsmith/deepracer-scripts
 cd deepracer-scripts
 ./dev-stack-build.sh
+
+# Build packages
+./build-deepracer-packages.sh

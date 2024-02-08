@@ -1,8 +1,7 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-export DIR="$(dirname $SCRIPT_DIR)"
+export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 mkdir -p $DIR/deps
 
@@ -24,34 +23,32 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 
 # Install ROS Core and Development Tools
 apt -y update && apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-pip libopencv-dev libjsoncpp-dev libhdf5-dev \
-     	python3-opencv python3-websocket python3-colcon-common-extensions python3-rosinstall cython3 libuvc0 
+     	python3-opencv python3-websocket python3-venv python3-colcon-common-extensions python3-rosinstall cython3 libuvc0 
+rosdep init && rosdep update --rosdistro=foxy
 
-# Make directory
-mkdir -p /opt/aws/deepracer
-apt -m venv --prompt dr /opt/aws/deepracer/.venv
-source /opt/aws/deepracer/.venv/bin/activate
-
-# Update Python
-pip3 install -U "setuptools<50" pip 
-pip3 install gdown
+# Update build tools and utilities for Python
+pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" && pip3 install gdown
 
 # Tensorflow and dependencies
 cd $DIR/deps/
 gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
-pip3 install tensorflow*.whl
 pip3 install pyudev \
-	"flask<3" \
-	flask_cors \
-	flask_wtf \
-	pam \
-	networkx \
-	unidecode \
-	defusedxml \
-	pyserial
+    "flask<3" \
+    flask_cors \
+    flask_wtf \
+    pam \
+    networkx \
+    unidecode \
+    defusedxml \
+    pyserial \
+    tensorflow*.whl \
+	"numpy<1.20" \
+	"protobuf~=3.20" \
+	"tensorboard~=2.4.0"
 
 # Switch nameserver
 ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-echo "DNSStubListener=no" |  tee -a /etc/systemd/resolved.conf
+echo "DNSStubListener=no" |  tee -a /etc/systemd/resolved.conf >/dev/null
 systemctl restart systemd-resolved
 
 # Install packages
@@ -65,6 +62,5 @@ apt install -y ./*.deb
 curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/openvino_2021.3_arm64.tgz
 cd /
 tar xvzf $DIR/deps/openvino_2021.3_arm64.tgz
-rm $DIR/deps/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino

@@ -40,7 +40,7 @@ dpkg-deb -R aws-deepracer-device-console_*amd64.deb aws-deepracer-device-console
 cd aws-deepracer-device-console
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 echo "/opt/aws/deepracer/nginx/nginx_install_certs.sh" | tee -a DEBIAN/postinst >/dev/null
-echo "systemctl status nginx.service" | tee -a DEBIAN/postinst >/dev/null
+echo "systemctl restart nginx.service" | tee -a DEBIAN/postinst >/dev/null
 cd ..
 dpkg-deb -b aws-deepracer-device-console
 dpkg-name -o aws-deepracer-device-console.deb

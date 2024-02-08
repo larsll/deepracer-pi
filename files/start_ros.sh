@@ -15,8 +15,15 @@
 #   See the License for the specific language governing permissions and         #
 #   limitations under the License.                                              #
 #################################################################################
-source /opt/aws/deepracer/.venv/bin/activate
-source /opt/ros/foxy/setup.bash
+
 source /opt/aws/deepracer/lib/setup.bash
 source /opt/intel/openvino_2021/bin/setupvars.sh
-ros2 launch deepracer_launcher deepracer_launcher.py inference_engine:=MYRIAD
+
+MYRIAD=$(lsusb | grep "Intel Movidius MyriadX")
+if [ -n "${MYRIAD}" ]; then
+    INFERENCE_ENGINE="MYRIAD"
+else
+    INFERENCE_ENGINE="CPU"
+fi
+
+ros2 launch deepracer_launcher deepracer_launcher.py inference_engine:=${INFERENCE_ENGINE}

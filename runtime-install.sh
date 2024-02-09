@@ -69,6 +69,6 @@ apt install -y ./*.deb
 # Get OpenVINO
 curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/openvino_2021.3_arm64.tgz
 cd /
-tar xvzf $DIR/dist/openvino_2021.3_arm64.tgz
+tar xvzf $DIR/distn/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino

@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 export DIR="$(dirname $SCRIPT_DIR)"
 
-mkdir -p $DIR/deps
+mkdir -p $DIR/deps $DIR/dist
 
 # From https://medium.com/@nullbyte.in/raspberry-pi-4-ubuntu-20-04-lts-ros2-a-step-by-step-guide-to-installing-the-perfect-setup-57c523f9d790
 sudo apt update && sudo apt install locales 
@@ -32,7 +32,7 @@ source .venv/bin/activate
 pip3 install -U "setuptools<50" pip gdown
 
 # Tensorflow and dependencies
-cd $DIR/deps/
+cd $DIR/dist/
 gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
 pip3 install pyudev \
     "flask<3" \
@@ -62,8 +62,9 @@ rosdep update --rosdistro=foxy
 
 # Install deepracer-scripts
 cd $DIR/deps/
-git clone https://github.com/davidfsmith/deepracer-scripts
+git clone https://github.com/larsll/deepracer-scripts
 cd deepracer-scripts
+git checkout optimizations
 ./dev-stack-build.sh
 
 # Build packages

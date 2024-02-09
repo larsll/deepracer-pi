@@ -3,7 +3,7 @@ set -e
 
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-mkdir -p $DIR/deps
+mkdir -p $DIR/dist
 
 # From https://medium.com/@nullbyte.in/raspberry-pi-4-ubuntu-20-04-lts-ros2-a-step-by-step-guide-to-installing-the-perfect-setup-57c523f9d790
 apt update &&  apt install locales 
@@ -15,6 +15,14 @@ export LANG=en_US.UTF-8
 apt install software-properties-common curl 
 add-apt-repository universe
 apt -y update && apt -y upgrade
+
+# Install other tools / configure network management
+apt -y install network-manager wireless-tools
+echo -e '[device]\nmatch-device=interface-name:wlan0\nmanaged=true\n' | tee /etc/NetworkManager/conf.d/manage-wifi.conf
+sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+sed -i 's/renderer: networkd/renderer: NetworkManager/' /etc/netplan/50-cloud-init.yaml
+systemctl restart network-manager
+netplan apply
 
 # Now add the ROS 2 GPG key with apt.
 # Then add the repository to your sources list.
@@ -30,7 +38,7 @@ rosdep init && rosdep update --rosdistro=foxy
 pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" && pip3 install gdown
 
 # Tensorflow and dependencies
-cd $DIR/deps/
+cd $DIR/dist/
 gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
 pip3 install pyudev \
     "flask<3" \
@@ -61,6 +69,6 @@ apt install -y ./*.deb
 # Get OpenVINO
 curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/openvino_2021.3_arm64.tgz
 cd /
-tar xvzf $DIR/deps/openvino_2021.3_arm64.tgz
+tar xvzf $DIR/dist/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino

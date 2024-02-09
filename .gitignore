@@ -52,5 +52,6 @@ CATKIN_IGNORE
 
 # Other directories
 deps/
+dist/
 .venv/
 pkg-build/

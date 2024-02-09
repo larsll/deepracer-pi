@@ -37,3 +37,6 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_CXX_FLAGS=-latomic ..
 
 make -j4
+sudo make install
+
+tar cvzf $DIR/dist/openvino_2021.3.tar.gz /opt/intel/openvino_2021.3

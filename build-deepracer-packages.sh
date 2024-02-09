@@ -33,7 +33,7 @@ cp $DIR/deps/geocam-bin-armhf/files/usr/bin/mxcam opt/aws/deepracer/camera/insta
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 cd ..
 dpkg-deb -b aws-deepracer-util
-dpkg-name -o aws-deepracer-util.deb
+dpkg-name -o aws-deepracer-util.deb -s $DIR/dist
 
 echo -e '\n### Building aws-deepracer-device-console ###\n'
 dpkg-deb -R aws-deepracer-device-console_*amd64.deb aws-deepracer-device-console
@@ -43,7 +43,7 @@ echo "/opt/aws/deepracer/nginx/nginx_install_certs.sh" | tee -a DEBIAN/postinst 
 echo "systemctl restart nginx.service" | tee -a DEBIAN/postinst >/dev/null
 cd ..
 dpkg-deb -b aws-deepracer-device-console
-dpkg-name -o aws-deepracer-device-console.deb
+dpkg-name -o aws-deepracer-device-console.deb -s $DIR/dist
 
 echo -e '\n### Building aws-deepracer-core ###\n'
 dpkg-deb -R aws-deepracer-core_*amd64.deb aws-deepracer-core
@@ -56,7 +56,7 @@ cp -r $DIR/deps/deepracer-scripts/ws/install/* opt/aws/deepracer/lib/
 rm DEBIAN/preinst
 cd ..
 dpkg-deb -b aws-deepracer-core
-dpkg-name -o aws-deepracer-core.deb
+dpkg-name -o aws-deepracer-core.deb -s $DIR/dist
 
 echo -e '\n### Building aws-deepracer-sample-models ###\n'
 dpkg-deb -R aws-deepracer-sample-models_*amd64.deb aws-deepracer-sample-models
@@ -64,4 +64,4 @@ cd aws-deepracer-sample-models
 sed -i 's/Architecture: amd64/Architecture: all/' DEBIAN/control
 cd ..
 dpkg-deb -b aws-deepracer-sample-models
-dpkg-name -o aws-deepracer-sample-models.deb
+dpkg-name -o aws-deepracer-sample-models.deb -s $DIR/dist

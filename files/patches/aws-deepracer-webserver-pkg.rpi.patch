@@ -12,7 +12,7 @@ index b5fe8bb..ebbaff1 100755
  
  
 diff --git a/webserver_pkg/webserver_pkg/utility.py b/webserver_pkg/webserver_pkg/utility.py
-index 4544d0d..867ccc2 100755
+index 4544d0d..faf9f96 100755
 --- a/webserver_pkg/webserver_pkg/utility.py
 +++ b/webserver_pkg/webserver_pkg/utility.py
 @@ -45,14 +45,14 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
@@ -32,7 +32,7 @@ index 4544d0d..867ccc2 100755
          elapsed_time = 0
          while not future.done():
              if elapsed_time == int(elapsed_time):
-@@ -66,7 +66,7 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
+@@ -66,13 +66,13 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
                  if future.cancelled():
                      webserver_node.get_logger().error(f"Service was cancelled: {sequence} {cli.srv_name}")
                  return None
@@ -41,6 +41,13 @@ index 4544d0d..867ccc2 100755
          if future.exception() is not None:
              webserver_node.get_logger().error(f"Error while calling service: {sequence} - "
                                                f"{cli.srv_name} - {future.exception()}")
+         return future.result()
+     else:
+-        webserver_node.get_logger().info(f"Service is not ready: {cli.srv_name}")
++        webserver_node.get_logger().warn(f"Service is not ready: {cli.srv_name}")
+         return None
+ 
+ 
 @@ -91,14 +91,14 @@ def execute(cmd, input_str=None, shell=False, shlex_split=False):
          tuple: A tuple of return code and the output of the command.
      """

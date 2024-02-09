@@ -1,3 +1,16 @@
+diff --git a/webserver_pkg/webserver_pkg/login.py b/webserver_pkg/webserver_pkg/login.py
+index b5fe8bb..ebbaff1 100755
+--- a/webserver_pkg/webserver_pkg/login.py
++++ b/webserver_pkg/webserver_pkg/login.py
+@@ -193,7 +193,7 @@ def check_authentication():
+ 
+     cookie_val = str(request.cookies.get(DEEPRACER_TOKEN))
+     status = True if(hmac.compare_digest(cookie_val, token)) else False
+-    webserver_node.get_logger().info(f"Cookie compare status: {status}")
++    webserver_node.get_logger().debug(f"Cookie compare status: {status}")
+     return status, cookie_val
+ 
+ 
 diff --git a/webserver_pkg/webserver_pkg/utility.py b/webserver_pkg/webserver_pkg/utility.py
 index 4544d0d..867ccc2 100755
 --- a/webserver_pkg/webserver_pkg/utility.py

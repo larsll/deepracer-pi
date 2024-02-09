@@ -76,3 +76,7 @@ cd /
 tar xvzf $DIR/distn/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
+
+# Firewall enable
+ufw allow "OpenSSH"
+ufw enable

@@ -77,7 +77,7 @@ cd aws-deepracer-status-led-pkg/
 git apply $DIR/files/patches/aws-deepracer-status-led-pkg.rpi.patch
 cd $DIR/bundle_ws
 
-cd aws-deepracer-webserver-led-pkg/
+cd aws-deepracer-webserver-pkg/
 git apply $DIR/files/patches/aws-deepracer-webserver-pkg.rpi.patch
 cd $DIR/bundle_ws
 

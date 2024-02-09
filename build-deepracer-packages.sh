@@ -16,7 +16,7 @@ if [ ! -d "$DIR/deps/geocam-bin-armhf" ]; then
 fi
 
 rm -rf $DIR/pkg-build
-mkdir -p $DIR/pkg-build
+mkdir -p $DIR/pkg-build $DIR/dist
 cd $DIR/pkg-build
 mkdir -p aws-deepracer-util aws-deepracer-device-console aws-deepracer-core aws-deepracer-sample-models
 

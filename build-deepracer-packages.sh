@@ -54,7 +54,7 @@ sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 sed -i 's/Version: 2.0.383.0/Version: 2.0.383.2+community/' DEBIAN/control
 rm -rf opt/aws/deepracer/lib/*
 cp $DIR/files/start_ros.sh opt/aws/deepracer
-cp -r $DIR/deps/deepracer-scripts/ws/install/* opt/aws/deepracer/lib/
+cp -r $DIR/bundle_ws/install/* opt/aws/deepracer/lib/
 rm DEBIAN/preinst
 cd ..
 dpkg-deb -b aws-deepracer-core

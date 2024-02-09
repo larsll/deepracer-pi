@@ -63,16 +63,15 @@ rosdep install -i --from-path . --rosdistro foxy -y
 
 cd aws-deepracer-i2c-pkg/
 git apply $DIR/files/patches/aws-deepracer-i2c-pkg.rpi.patch
-cd ..
+cd $DIR/bundle_ws
 
 cd aws-deepracer-servo-pkg/
 git apply $DIR/files/patches/aws-deepracer-servo-pkg.rpi.patch
-cd ..
+cd $DIR/bundle_ws
 
-cd aws-deepracer-servo-pkg/
+cd aws-deepracer-systems-pkg/
 git apply $DIR/files/patches/aws-deepracer-systems-pkg.rpi.patch
-cd ..
-
+cd $DIR/bundle_ws
 
 #
 # END - Patches
@@ -84,7 +83,7 @@ cd ..
 rm -rf install build log
 
 # Update deepracer_launcher.py (fix an issue in the file)
-cp ../launch/deepracer_launcher.py ./aws-deepracer-launcher/deepracer_launcher/launch/deepracer_launcher.py
+cp ../files/deepracer_launcher.py ./aws-deepracer-launcher/deepracer_launcher/launch/deepracer_launcher.py
 
 # Build the core
 colcon build --packages-up-to deepracer_launcher rplidar_ros

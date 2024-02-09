@@ -51,7 +51,7 @@ echo -e '\n### Building aws-deepracer-core ###\n'
 dpkg-deb -R aws-deepracer-core_*amd64.deb aws-deepracer-core
 cd aws-deepracer-core
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
-sed -i 's/Version: 2.0.383.0/Version: 2.0.383.1+community/' DEBIAN/control
+sed -i 's/Version: 2.0.383.0/Version: 2.0.383.2+community/' DEBIAN/control
 rm -rf opt/aws/deepracer/lib/*
 cp $DIR/files/start_ros.sh opt/aws/deepracer
 cp -r $DIR/deps/deepracer-scripts/ws/install/* opt/aws/deepracer/lib/

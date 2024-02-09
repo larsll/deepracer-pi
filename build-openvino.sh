@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
 
-set +e
+set -e
 
-cd ~/
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+export DIR="$(dirname $SCRIPT_DIR)"
+
+cd $DIR/deps/
 git clone --depth 1 --branch 2021.3 https://github.com/openvinotoolkit/openvino.git
-cd ~/openvino
+cd $DIR/deps/openvino
 git submodule update --init --recursive
 sh ./install_build_dependencies.sh
-cd ~/openvino/inference-engine/ie_bridges/python/
+cd $DIR/deps/openvino/inference-engine/ie_bridges/python/
 
 sudo pip3 install -r requirements.txt
 
 export OpenCV_DIR=/usr/lib/aarch64-linux-gnu/cmake/opencv4
 
-cd ~/openvino
+cd $DIR/deps/openvino
 
 mkdir -p build && cd build
 
@@ -34,3 +37,6 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 -DCMAKE_CXX_FLAGS=-latomic ..
 
 make -j4
+sudo make install
+
+tar cvzf $DIR/dist/openvino_2021.3.tar.gz /opt/intel/openvino_2021.3

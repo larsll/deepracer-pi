@@ -23,7 +23,7 @@ add-apt-repository universe
 apt -y update && apt -y upgrade
 
 # Install other tools / configure network management
-apt -y install network-manager wireless-tools net-tools i2c-tools
+apt -y install network-manager wireless-tools net-tools i2c-tools libraspberrypi-bin
 echo -e '[device]\nmatch-device=interface-name:wlan0\nmanaged=true\n' | tee /etc/NetworkManager/conf.d/manage-wifi.conf
 sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 sed -i 's/renderer: networkd/renderer: NetworkManager/' /etc/netplan/50-cloud-init.yaml
@@ -89,3 +89,6 @@ ufw enable
 
 # Enable PWM / PCA9685 on I2C 0x40
 echo "dtoverlay=i2c-pwm-pca9685a,addr=0x40" | tee -a /boot/firmware/usercfg.txt
+
+# Disable deepracer-core until we are ready
+systemctl disable deepracer-core

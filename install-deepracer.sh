@@ -20,7 +20,7 @@ apt -y update && apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-to
 rosdep init && rosdep update --rosdistro=foxy
 
 # Update build tools and utilities for Python
-pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" && pip3 install gdown
+pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" testresources && pip3 install gdown
 
 # Tensorflow and dependencies
 cd $DIR/dist/

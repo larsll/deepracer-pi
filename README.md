@@ -30,7 +30,9 @@ Installation of software is reasonably straight forward, as pre-built packages a
 - Flash an SD card with Ubuntu 20.04 Server for ARM64 using the Raspberry Pi Imager.
 - Boot the SD card, and let it upgrade (this takes some time...)
 - Run `git clone https://github.com/larsll/deepracer-pi`
-- Run `sudo runtime-install.sh` 
+- Run `sudo ./install-prerequisites.sh` 
+- Reboot
+- Run `sudo ./install-deepracer.sh`
 
 ### Changes
 Some changes have been made to the code to enable access to GPIO as sysfs layout is different on the Raspberry Pi than on the custom Intel board.

@@ -11,16 +11,18 @@ export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 mkdir -p $DIR/dist
 
+systemctl stop unattended-upgrades
+apt update -y && apt remove -y unattended-upgrades
+
+# First ensure that the Ubuntu Universe repository is enabled.
+apt install -y software-properties-common curl locales
+add-apt-repository universe
+apt update -y && apt upgrade -y
+
 # From https://medium.com/@nullbyte.in/raspberry-pi-4-ubuntu-20-04-lts-ros2-a-step-by-step-guide-to-installing-the-perfect-setup-57c523f9d790
-apt update &&  apt install locales 
 locale-gen en_US en_US.UTF-8
 update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
-
-# First ensure that the Ubuntu Universe repository is enabled.
-apt install software-properties-common curl 
-add-apt-repository universe
-apt -y update && apt -y upgrade
 
 # Enable PWM / PCA9685 on I2C 0x40
 echo "dtoverlay=i2c-pwm-pca9685a,addr=0x40" | tee -a /boot/firmware/usercfg.txt

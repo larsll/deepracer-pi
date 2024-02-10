@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+# Check we have the privileges we need
+if [ `whoami` != root ]; then
+    echo "Please run this script as root or using sudo"
+    exit 1
+fi
+
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 mkdir -p $DIR/dist
@@ -80,3 +86,6 @@ ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
 # Firewall enable
 ufw allow "OpenSSH"
 ufw enable
+
+# Enable PWM / PCA9685 on I2C 0x40
+echo "dtoverlay=i2c-pwm-pca9685a,addr=0x40" | tee -a /boot/firmware/usercfg.txt

@@ -16,7 +16,8 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-a
 
 # Install ROS Core and Development Tools
 apt -y update && apt install -y ros-foxy-ros-base python3-argcomplete ros-dev-tools python3-pip libopencv-dev libjsoncpp-dev libhdf5-dev \
-     	python3-opencv python3-websocket python3-venv python3-colcon-common-extensions python3-rosinstall cython3 libuvc0  ros-foxy-cv-bridge
+     	python3-opencv python3-websocket python3-venv python3-colcon-common-extensions python3-rosinstall cython3 libuvc0  \
+        ros-foxy-cv-bridge ros-foxy-image-transport ros-foxy-compressed-image-transport libboost-dev libboost-thread-dev libboost-regex-dev libboost-filesystem-dev
 rosdep init && rosdep update --rosdistro=foxy
 
 # Update build tools and utilities for Python

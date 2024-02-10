@@ -25,7 +25,7 @@ pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" testresources && 
 # Tensorflow and dependencies
 cd $DIR/dist/
 if [ ! -f "$DIR/dist/tensorflow-2.4.1-cp38-cp38-linux_aarch64.wh" ]; then
-    echo "Downloading TensorFlow wheel exists."
+    echo "Downloading TensorFlow wheel!"
     gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
 fi
 pip3 install -U pyudev \
@@ -53,7 +53,7 @@ apt install -y ./*.deb
 # Get OpenVINO
 [ ! -f "$DIR/dist/openvino_2021.3_arm64.tgz" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/openvino_2021.3_arm64.tgz
 cd /
-tar xvzf $DIR/distn/openvino_2021.3_arm64.tgz
+tar xvzf $DIR/dist/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
 

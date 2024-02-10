@@ -28,7 +28,7 @@ if [ ! -f "$DIR/dist/tensorflow-2.4.1-cp38-cp38-linux_aarch64.wh" ]; then
     echo "Downloading TensorFlow wheel exists."
     gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
 fi
-pip3 install pyudev \
+pip3 install -U pyudev \
     "flask<3" \
     flask_cors \
     flask_wtf \

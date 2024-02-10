@@ -55,3 +55,4 @@ deps/
 dist/
 .venv/
 pkg-build/
+!bundle_ws/.rosinstall

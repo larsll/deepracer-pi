@@ -61,11 +61,8 @@ sudo rosdep fix-permissions
 rosdep update --rosdistro=foxy
 
 # Install deepracer-scripts
-cd $DIR/deps/
-git clone https://github.com/larsll/deepracer-scripts
-cd deepracer-scripts
-git checkout optimizations
-./dev-stack-build.sh
+cd $DIR/
+./build-deepracer-core.sh
 
 # Build packages
 ./build-deepracer-packages.sh

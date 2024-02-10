@@ -1,0 +1,52 @@
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py
+index c4ff558..76f73a3 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py
+@@ -56,7 +56,7 @@ WIFI_CONFIG_DEFAULTS = {
+ DEVICE_STATUS_NAME = "device-status.txt"
+ 
+ # Set to True to set hostname to the chassis serial number.
+-SET_HOSTNAME_TO_CHASSIS_SERIAL_NUMBER = True
++SET_HOSTNAME_TO_CHASSIS_SERIAL_NUMBER = False
+ CHASSIS_SERIAL = os.path.join(os.sep, "sys", "class", "dmi", "id", "chassis_serial")
+ 
+ SCHEDULE_CONFIG_UPDATE_CB = "schedule_config_update"
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py
+index d1a6ff0..d69acbd 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py
+@@ -57,7 +57,7 @@ def get_chassis_serial():
+     """
+     serial = file_system_utils.read_line(network_config.CHASSIS_SERIAL).strip()
+     if serial == "":
+-        serial = software_update_config.PACKAGE_MASK.strip()
++        serial = software_update_config.VERSION_MASK.strip()
+ 
+     serial = serial.lower()
+     serial = serial.replace(" ", "-")
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
+index dd6670d..06d862c 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
+@@ -24,7 +24,7 @@ GET_OTG_LINK_STATE_SERVICE_NAME = "get_otg_link_state"
+ #########################################################################################
+ # OTG settings.
+ 
+-ENABLE_OTG_PERIODIC_CHECK = True
++ENABLE_OTG_PERIODIC_CHECK = False
+ OTG_CHECK_PERIOD_IN_SECONDS = 2
+ 
+ OTG_STATE_DIRECTORY = os.path.join(os.sep, "sys", "kernel", "debug", "dwc3.0.auto")
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py
+index e9bb427..ac52ea0 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py
+@@ -30,7 +30,7 @@ NETWORK_CONNECTION_STATUS_TOPIC_NAME = \
+ #########################################################################################
+ # Software Update manager configuration.
+ 
+-ENABLE_PERIODIC_SOFTWARE_UPDATE = True
++ENABLE_PERIODIC_SOFTWARE_UPDATE = False
+ SOFTWARE_UPDATE_PERIOD_IN_SECONDS = (60.0 * 15)
+ MIN_TIME_BEFORE_REBOOT_IN_SECONDS = 10
+ SOFTWARE_UPDATE_RETRY_SLEEP_IN_SECONDS = (30.0 * 15)

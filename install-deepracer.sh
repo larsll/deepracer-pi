@@ -44,7 +44,7 @@ pip3 install pyudev \
 
 # Install packages
 cd $DIR/dist/
-[ ! -f "$DIR/dist/aws-deepracer-core_2.0.383.1%2Bcommunity_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-core_2.0.383.1%2Bcommunity_arm64.deb
+[ ! -f "$DIR/dist/aws-deepracer-core_2.0.383.2%2Bcommunity_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-core_2.0.383.2%2Bcommunity_arm64.deb
 [ ! -f "$DIR/dist/aws-deepracer-device-console_2.0.196.0_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-device-console_2.0.196.0_arm64.deb
 [ ! -f "$DIR/dist/aws-deepracer-sample-models_2.0.9.0_all.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-sample-models_2.0.9.0_all.deb
 [ ! -f "$DIR/dist/aws-deepracer-util_2.0.61.0_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-util_2.0.61.0_arm64.deb

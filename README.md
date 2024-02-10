@@ -34,6 +34,11 @@ Installation of software is reasonably straight forward, as pre-built packages a
 - Reboot
 - Run `sudo ./install-deepracer.sh`
 
+Once installed you can start the stack with `sudo /opt/aws/deepracer/start_ros.sh`. To ensure a smooth start a camera needs to be plugged in. 
+The launch log will now display in the console. 
+
+To automatically start at boot do `sudo systemctl enable deepracer-core` and to start the service in the background `sudo systemctl start deepracer-core`.
+
 ### Changes
 Some changes have been made to the code to enable access to GPIO as sysfs layout is different on the Raspberry Pi than on the custom Intel board.
 

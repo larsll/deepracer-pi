@@ -30,6 +30,18 @@ sed -i 's/renderer: networkd/renderer: NetworkManager/' /etc/netplan/50-cloud-in
 systemctl restart network-manager
 netplan apply
 
+# Switch nameserver
+ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
+echo "DNSStubListener=no" |  tee -a /etc/systemd/resolved.conf >/dev/null
+systemctl restart systemd-resolved
+
+# Firewall enable
+ufw allow "OpenSSH"
+ufw enable
+
+# Enable PWM / PCA9685 on I2C 0x40
+echo "dtoverlay=i2c-pwm-pca9685a,addr=0x40" | tee -a /boot/firmware/usercfg.txt
+
 # Now add the ROS 2 GPG key with apt.
 # Then add the repository to your sources list.
 curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -63,11 +75,6 @@ pip3 install pyudev \
 	"protobuf~=3.20" \
 	"tensorboard~=2.4.0"
 
-# Switch nameserver
-ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-echo "DNSStubListener=no" |  tee -a /etc/systemd/resolved.conf >/dev/null
-systemctl restart systemd-resolved
-
 # Install packages
 cd $DIR/dist/
 [ ! -f "$DIR/dist/aws-deepracer-core_2.0.383.1%2Bcommunity_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/aws-deepracer-core_2.0.383.1%2Bcommunity_arm64.deb
@@ -82,13 +89,6 @@ cd /
 tar xvzf $DIR/distn/openvino_2021.3_arm64.tgz
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
 ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
-
-# Firewall enable
-ufw allow "OpenSSH"
-ufw enable
-
-# Enable PWM / PCA9685 on I2C 0x40
-echo "dtoverlay=i2c-pwm-pca9685a,addr=0x40" | tee -a /boot/firmware/usercfg.txt
 
 # Disable deepracer-core until we are ready
 systemctl disable deepracer-core

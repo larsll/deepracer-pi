@@ -20,7 +20,7 @@ cd $DIR/deps/openvino
 mkdir -p build && cd build
 
 cmake -DCMAKE_BUILD_TYPE=Release \
--DCMAKE_INSTALL_PREFIX=/opt/intel/openvino_2022.3 \
+-DCMAKE_INSTALL_PREFIX=/opt/intel/openvino_2022.3.1 \
 -DENABLE_MKL_DNN=OFF \
 -DENABLE_CLDNN=OFF \
 -DENABLE_GNA=OFF \
@@ -38,7 +38,7 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 make -j4
 sudo make install
 
-tar cvzf $DIR/dist/openvino_2021.3.tar.gz /opt/intel/openvino_2021.3
+tar cvzf --owner=0 --group=0 --no-same-owner --no-same-permissions $DIR/dist/openvino_2022.3.1.tar.gz /opt/intel/openvino_2022.3.1
 
-sudo ln -sf /opt/intel/openvino_2022.3 /opt/intel/openvino_2022
-sudo ln -sf /opt/intel/openvino_2022.3 /opt/intel/openvino
+sudo ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino_2022
+sudo ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino

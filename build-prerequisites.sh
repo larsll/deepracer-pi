@@ -28,7 +28,7 @@ sudo apt -y update && sudo apt install -y python3-venv ros-humble-ros-base libop
 # Install venv
 python3 -m venv --prompt dr-build .venv
 source .venv/bin/activate
-pip3 install -U "setuptools<50" pip gdown catkin_pkg "Cython<3"
+pip3 install -U "setuptools==58.2.0" pip gdown catkin_pkg "Cython<3"
 
 # Tensorflow and dependencies
 cd $DIR/dist/
@@ -47,18 +47,14 @@ pip3 install -U pyudev \
 	"protobuf" \
 	"tensorboard" \
     "openvino" \
-    "openvino-dev"
+    "openvino-dev" \
+    "empy==3.3.4" \ 
+    "lark"
 
 # Compile and Install OpenVINO
 ./build-openvino.sh
 
-# Init ROS
-sudo rosdep init
-sudo rosdep fix-permissions
-rosdep update --rosdistro=humble
-
 # Install deepracer-scripts
-cd $DIR/
 ./build-deepracer-core.sh
 
 # Build packages

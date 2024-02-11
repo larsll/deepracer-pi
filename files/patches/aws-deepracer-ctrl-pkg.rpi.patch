@@ -212,42 +212,42 @@ index a75a58a..b9bffe5 100644
                                                                                                 servoMsgStrategy);
          
 -        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoGPIOClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::ServoGPIOSrv>(SERVO_GPIO_SRV,
                                                                                                  rmw_qos_profile_services_default,
                                                                                                  servoGPIOClientCbGrp_);
          waitForService(servoGPIOClient_, ctrlNode);
          
 -        modelOptimizerClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        modelOptimizerClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        modelOptimizerClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          modelOptimizerClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::ModelOptimizeSrv>(MODEL_OPT_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            modelOptimizerClientCbGrp_);
          waitForService(modelOptimizerClient_, ctrlNode);
          
 -        loadModelClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        loadModelClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        loadModelClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          loadModelClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::LoadModelSrv>(MODEL_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            loadModelClientCbGrp_);
          waitForService(loadModelClient_, ctrlNode);
  
 -        loadActionSpaceClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        loadActionSpaceClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        loadActionSpaceClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          loadActionSpaceClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::LoadModelSrv>(NAV_ACTION_SPACE_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            loadActionSpaceClientCbGrp_);
          waitForService(loadActionSpaceClient_, ctrlNode);
  
 -        inferStateClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        inferStateClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        inferStateClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          inferStateClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::InferenceStateSrv>(INFER_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            inferStateClientCbGrp_);
          waitForService(inferStateClient_, ctrlNode);
  
 -        navigationThrottleClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        navigationThrottleClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        navigationThrottleClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          navigationThrottleClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::NavThrottleSrv>(NAV_THROTTLE_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            navigationThrottleClientCbGrp_);
@@ -256,7 +256,7 @@ index a75a58a..b9bffe5 100644
                                                                                                 servoMsgStrategy);
  
 -        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoGPIOClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::ServoGPIOSrv>(SERVO_GPIO_SRV,
                                                                                                  rmw_qos_profile_services_default,
                                                                                                  servoGPIOClientCbGrp_);
@@ -265,35 +265,35 @@ index a75a58a..b9bffe5 100644
                                                                                                 servoMsgStrategy);
  
 -        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++        servoGPIOClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoGPIOClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::ServoGPIOSrv>(SERVO_GPIO_SRV,
                                                                                                  rmw_qos_profile_services_default,
                                                                                                  servoGPIOClientCbGrp_);
          waitForService(servoGPIOClient_, ctrlNode);
          
 -        servoGetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                                
-+        servoGetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                                
++        servoGetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoGetCalClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::GetCalibrationSrv>(GET_SERVO_CAL_SRV,
                                                                                                         rmw_qos_profile_services_default,
                                                                                                         servoGetCalClientCbGrp_);
          waitForService(servoGetCalClient_, ctrlNode);
          
 -        servoSetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                               
-+        servoSetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                               
++        servoSetCalClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoSetCalClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::SetCalibrationSrv>(SET_SERVO_CAL_SRV,
                                                                                                         rmw_qos_profile_services_default,
                                                                                                         servoSetCalClientCbGrp_);
          waitForService(servoSetCalClient_, ctrlNode);
  
 -        servoGetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                                 
-+        servoGetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                                 
++        servoGetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoGetLedClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::GetLedCtrlSrv>(GET_LED_PWM_SRV,
                                                                                                     rmw_qos_profile_services_default,
                                                                                                     servoGetLedClientCbGrp_);
          waitForService(servoGetLedClient_, ctrlNode);
          
 -        servoSetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                                   
-+        servoSetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                                   
++        servoSetLedClientCbGrp_ = ctrlNode->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
          servoSetLedClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::SetLedCtrlSrv>(SET_LED_PWM_SRV,
                                                                                                     rmw_qos_profile_services_default,
                                                                                                     servoSetLedClientCbGrp_);

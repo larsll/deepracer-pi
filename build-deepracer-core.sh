@@ -3,6 +3,11 @@ set -e
 
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+# Init ROS
+#sudo rosdep init
+#sudo rosdep fix-permissions
+rosdep update --rosdistro=humble
+
 # Set the environment
 source /opt/ros/humble/setup.bash 
 source /opt/intel/openvino_2022/setupvars.sh
@@ -79,6 +84,14 @@ cd $DIR/bundle_ws
 
 cd aws-deepracer-webserver-pkg/
 git apply $DIR/files/patches/aws-deepracer-webserver-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-ctrl-pkg/
+git apply $DIR/files/patches/aws-deepracer-ctrl-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-inference-pkg/
+git apply $DIR/files/patches/aws-deepracer-inference-pkg.rpi.patch
 cd $DIR/bundle_ws
 
 #

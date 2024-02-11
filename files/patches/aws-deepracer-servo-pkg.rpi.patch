@@ -19,8 +19,8 @@ index 631af08..7483aea 100644
                                                                                                   std::placeholders::_1),
                                                                                          rclcpp::SubscriptionOptions(),
                                                                                          rawPWMMsgStrategy);
--    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
+-    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
++    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
      rclcpp::Service<deepracer_interfaces_pkg::srv::SetCalibrationSrv>::SharedPtr servoCalService =
          node->create_service<deepracer_interfaces_pkg::srv::SetCalibrationSrv>(SET_CAL_SERVICE_NAME,
                                                                                 std::bind(&PWM::ServoMgr::setCalHdl,
@@ -29,7 +29,7 @@ index 631af08..7483aea 100644
                                                                                 servoCalServiceCbGrp_);
  
 -    auto setGPIOServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::MutuallyExclusive);                                                                                          
-+    auto setGPIOServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);                                                                                          
++    auto setGPIOServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
      rclcpp::Service<deepracer_interfaces_pkg::srv::ServoGPIOSrv>::SharedPtr setGPIOService =
          node->create_service<deepracer_interfaces_pkg::srv::ServoGPIOSrv>(SERVO_GPIO_SERVICE_NAME,
                                                                            std::bind(&PWM::ServoMgr::setGPIOHdl,
@@ -38,7 +38,7 @@ index 631af08..7483aea 100644
                                                                            setGPIOServiceCbGrp_);
  
 -    auto getCalServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+    auto getCalServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++    auto getCalServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
      rclcpp::Service<deepracer_interfaces_pkg::srv::GetCalibrationSrv>::SharedPtr getCalService =
          node->create_service<deepracer_interfaces_pkg::srv::GetCalibrationSrv>(GET_CAL_SERVICE_NAME,
                                                                         std::bind(&PWM::ServoMgr::getCalHdl,
@@ -47,7 +47,7 @@ index 631af08..7483aea 100644
                                                                         getCalServiceCbGrp_);
  
 -    auto setLedCtrlCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+    auto setLedCtrlCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++    auto setLedCtrlCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
      rclcpp::Service<deepracer_interfaces_pkg::srv::SetLedCtrlSrv>::SharedPtr setLedCtrlService =
          node->create_service<deepracer_interfaces_pkg::srv::SetLedCtrlSrv>(SET_LED_STATE_SERVICE_NAME,
                                                                             std::bind(&PWM::LedMgr::setLedCtrlHdl,
@@ -56,7 +56,7 @@ index 631af08..7483aea 100644
                                                                             setLedCtrlCbGrp_);
  
 -    auto getLedCtrlCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
-+    auto getLedCtrlCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);                                                                                          
++    auto getLedCtrlCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
      rclcpp::Service<deepracer_interfaces_pkg::srv::GetLedCtrlSrv>::SharedPtr getLedCtrlService =
          node->create_service<deepracer_interfaces_pkg::srv::GetLedCtrlSrv>(GET_LED_STATE_SERVICE_NAME,
                                                                             std::bind(&PWM::LedMgr::getLedCtrlHdl,

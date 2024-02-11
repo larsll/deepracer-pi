@@ -51,6 +51,7 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 - `gpio495`-`gpio504` - maps to PWM7 to PWM15 on the Hat, to control three RGB leds (those originally on the side of the board)
 
 ## What does not (yet) work
+- Cameras via CSI port (e.g. Raspberry Pi Camera) does not work with Ubuntu 20.04 64-bit
 - Support only for single camera, as the Neural Compute Stick does not support Evo configuration(s)
 - Battery gauge is not connected - red warning message persists
 - Device Info Node is looking in non-existent places - no real impact

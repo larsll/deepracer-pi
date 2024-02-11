@@ -8,12 +8,12 @@ cd $DIR/deps/
 git clone --depth 1 --branch 2022.3.1 https://github.com/openvinotoolkit/openvino.git
 cd $DIR/deps/openvino
 git submodule update --init --recursive
-sh ./install_build_dependencies.sh
+sudo ./install_build_dependencies.sh
 cd $DIR/deps/openvino/inference-engine/ie_bridges/python/
 
-sudo pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 
-export OpenCV_DIR=/usr/lib/aarch64-linux-gnu/cmake/opencv4
+OpenCV_DIR=/usr/lib/aarch64-linux-gnu/cmake/opencv4
 
 cd $DIR/deps/openvino
 

@@ -24,11 +24,6 @@ rosdep init && rosdep update --rosdistro=foxy
 pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" testresources && pip3 install gdown
 
 # Tensorflow and dependencies
-cd $DIR/dist/
-if [ ! -f "$DIR/dist/tensorflow-2.4.1-cp38-cp38-linux_aarch64.wh" ]; then
-    echo "Downloading TensorFlow wheel!"
-    gdown --fuzzy https://drive.google.com/file/d/1rfgF2U2oZJvQSMbGNZl8f5jbWP4fY6UW/view?usp=sharing
-fi
 pip3 install -U pyudev \
     "flask<3" \
     flask_cors \
@@ -38,10 +33,9 @@ pip3 install -U pyudev \
     unidecode \
     defusedxml \
     pyserial \
-    tensorflow*.whl \
-	"numpy<1.20" \
-	"protobuf~=3.20" \
-	"tensorboard~=2.4.0"
+    tensorflow \
+    openvino \
+    openvino-dev
 
 # Install packages
 cd $DIR/dist/

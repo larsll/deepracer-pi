@@ -4,8 +4,8 @@ set -e
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 # Set the environment
-source /opt/ros/foxy/setup.bash 
-source /opt/intel/openvino_2021/bin/setupvars.sh
+source /opt/ros/humble/setup.bash 
+source /opt/intel/openvino_2022/setupvars.sh
 
 # Change to build directory
 cd $DIR/bundle_ws
@@ -49,7 +49,7 @@ git checkout cache-load
 cd ..
 
 # Resolve the dependanices
-rosdep install -i --from-path . --rosdistro foxy -y
+rosdep install -i --from-path . --rosdistro humble -y
 
 #
 # END - Pull request specific changes

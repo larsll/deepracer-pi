@@ -50,7 +50,7 @@ pip3 install -U pyudev \
     "openvino-dev"
 
 # Compile and Install OpenVINO
-source build-openvino.sh
+./build-openvino.sh
 
 # Init ROS
 sudo rosdep init

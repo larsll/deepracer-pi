@@ -5,7 +5,7 @@ set -e
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 cd $DIR/deps/
-git clone --depth 1 --branch 2022.3 https://github.com/openvinotoolkit/openvino.git
+git clone --depth 1 --branch 2022.3.1 https://github.com/openvinotoolkit/openvino.git
 cd $DIR/deps/openvino
 git submodule update --init --recursive
 sh ./install_build_dependencies.sh

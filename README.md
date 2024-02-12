@@ -1,6 +1,6 @@
 # DeepRacer for Raspberry Pi 4
 This repository provides a port of the DeepRacer software stack to the Raspberry Pi 4. It runs
-on Ubuntu 22.04 with ROS2 Humble, but with . To make the image smaller the server image is recommended.
+on Ubuntu 22.04 with ROS2 Humble, but with most of original code. To make the image smaller the server image is recommended.
 
 ## Features
 

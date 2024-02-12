@@ -2,6 +2,8 @@
 
 set -e
 
+export DEBIAN_FRONTEND=noninteractive
+
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 cd $DIR/deps/
@@ -10,6 +12,7 @@ cd $DIR/deps/openvino
 git submodule update --init --recursive
 sudo ./install_build_dependencies.sh
 
+source $DIR/.venv/bin/activate
 pip3 install -r ./src/bindings/python/wheel/requirements-dev.txt
 
 mkdir -p build && cd build

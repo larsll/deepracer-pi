@@ -18,7 +18,6 @@
 
 source /opt/aws/deepracer/lib/setup.bash
 source /opt/intel/openvino_2022/setupvars.sh
-export INTEL_CVSDK_DIR=/opt/intel/openvino_2022
 
 MYRIAD=$(lsusb | grep "Intel Movidius MyriadX")
 if [ -n "${MYRIAD}" ]; then

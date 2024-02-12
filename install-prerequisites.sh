@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Check we have the privileges we need
 if [ `whoami` != root ]; then
     echo "Please run this script as root or using sudo"
@@ -39,6 +41,8 @@ ufw enable
 # Install other tools / configure network management
 apt -y install network-manager wireless-tools net-tools i2c-tools libraspberrypi-bin raspi-config
 cp $DIR/files/10-manage-wifi.conf /etc/NetworkManager/conf.d/
+systemctl disable systemd-networkd-wait-online
+
 sed -i 's/wifi.powersave = 3/wifi.powersave = 2/' /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
 sed -i 's/renderer: networkd/renderer: NetworkManager/' /etc/netplan/50-cloud-init.yaml
 echo -e "\nRestarting the network stack. This might require reconnection. Pi might receive a new IP address."

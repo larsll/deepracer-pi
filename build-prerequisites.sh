@@ -1,6 +1,8 @@
 #/usr/bin/env bash
 set -e
 
+export DEBIAN_FRONTEND=noninteractive
+
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 mkdir -p $DIR/deps $DIR/dist
@@ -27,7 +29,7 @@ sudo apt -y update && sudo apt install -y python3-venv ros-humble-ros-base libop
 
 # Install venv
 python3 -m venv --prompt dr-build .venv
-source .venv/bin/activate
+source $DIR/.venv/bin/activate
 pip3 install -U "setuptools==58.2.0" pip gdown catkin_pkg "Cython<3"
 
 # Tensorflow and dependencies

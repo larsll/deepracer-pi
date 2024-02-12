@@ -3,9 +3,14 @@ set -e
 
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+# Init ROS
+#sudo rosdep init
+#sudo rosdep fix-permissions
+rosdep update --rosdistro=humble
+
 # Set the environment
-source /opt/ros/foxy/setup.bash 
-source /opt/intel/openvino_2021/bin/setupvars.sh
+source /opt/ros/humble/setup.bash
+source /opt/intel/openvino_2022/setupvars.sh
 
 # Change to build directory
 cd $DIR/bundle_ws
@@ -15,7 +20,7 @@ rosws update
 #######
 #
 # START - Pull request specific changes
-# 
+#
 
 # Update packages for PR's
 # https://github.com/aws-deepracer/aws-deepracer-inference-pkg/pull/4
@@ -49,7 +54,7 @@ git checkout cache-load
 cd ..
 
 # Resolve the dependanices
-rosdep install -i --from-path . --rosdistro foxy -y
+rosdep install -i --from-path . --rosdistro humble -y
 
 #
 # END - Pull request specific changes
@@ -59,7 +64,7 @@ rosdep install -i --from-path . --rosdistro foxy -y
 #######
 #
 # START - PI specific patches
-# 
+#
 
 cd aws-deepracer-i2c-pkg/
 git apply $DIR/files/patches/aws-deepracer-i2c-pkg.rpi.patch
@@ -81,6 +86,18 @@ cd aws-deepracer-webserver-pkg/
 git apply $DIR/files/patches/aws-deepracer-webserver-pkg.rpi.patch
 cd $DIR/bundle_ws
 
+cd aws-deepracer-ctrl-pkg/
+git apply $DIR/files/patches/aws-deepracer-ctrl-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-inference-pkg/
+git apply $DIR/files/patches/aws-deepracer-inference-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-model-optimizer-pkg/
+git apply $DIR/files/patches/aws-deepracer-model-optimizer-pkg.rpi.patch
+cd $DIR/bundle_ws
+
 #
 # END - Patches
 #
@@ -97,7 +114,7 @@ cp ../files/deepracer_launcher.py ./aws-deepracer-launcher/deepracer_launcher/la
 colcon build --packages-up-to deepracer_launcher rplidar_ros
 
 # Build the add-ons
-colcon build --packages-up-to logging_pkg 
+colcon build --packages-up-to logging_pkg
 
 cd $DIR
 

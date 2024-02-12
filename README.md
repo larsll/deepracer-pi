@@ -1,6 +1,6 @@
 # DeepRacer for Raspberry Pi 4
-This repository provides a port of the DeepRacer software stack to the Raspberry Pi 4. It runs, as the original, 
-on Ubuntu 20.04. To make the image smaller the server image is recommended.
+This repository provides a port of the DeepRacer software stack to the Raspberry Pi 4. It runs
+on Ubuntu 22.04 with ROS2 Humble, but with . To make the image smaller the server image is recommended.
 
 ## Features
 
@@ -27,7 +27,7 @@ The following parts are needed:
 
 ## Software Install
 Installation of software is reasonably straight forward, as pre-built packages are provided:
-- Flash an SD card with Ubuntu 20.04 Server for ARM64 using the Raspberry Pi Imager.
+- Flash an SD card with Ubuntu 22.04 Server for ARM64 using the Raspberry Pi Imager.
 - Boot the SD card, and let it upgrade (this takes some time...)
 - Run `git clone https://github.com/larsll/deepracer-pi`
 - Run `sudo ./install-prerequisites.sh` 
@@ -51,7 +51,6 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 - `gpio495`-`gpio504` - maps to PWM7 to PWM15 on the Hat, to control three RGB leds (those originally on the side of the board)
 
 ## What does not (yet) work
-- Cameras via CSI port (e.g. Raspberry Pi Camera) does not work with Ubuntu 20.04 64-bit
 - Support only for single camera, as the Neural Compute Stick does not support Evo configuration(s)
 - Battery gauge is not connected - red warning message persists
 - Device Info Node is looking in non-existent places - no real impact

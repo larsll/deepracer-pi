@@ -51,11 +51,11 @@ cd $DIR/dist/
 apt install -y ./*.deb
 
 # Get OpenVINO
-[ ! -f "$DIR/dist/openvino_2021.3_arm64.tgz" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi/openvino_2021.3_arm64.tgz
+[ ! -f "$DIR/dist/openvino_2022.3.1_arm64.tgz" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/openvino_2022.3.1_arm64.tgz
 cd /
-tar xvzf $DIR/dist/openvino_2021.3_arm64.tgz
-ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino_2021
-ln -sf /opt/intel/openvino_2021.3 /opt/intel/openvino
+tar xvzf $DIR/dist/openvino_2022.3.1_arm64.tgz
+ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino_2022
+ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino
 
 # Disable deepracer-core until we are ready
 systemctl disable deepracer-core

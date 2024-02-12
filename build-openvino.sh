@@ -34,7 +34,7 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 make -j4
 sudo make install
 
-tar cvzf $DIR/dist/openvino_2022.3.1.tar.gz /opt/intel/openvino_2022.3.1 --owner=0 --group=0 --no-same-owner --no-same-permissions
+tar cvzf $DIR/dist/openvino_2022.3.1_arm64.tgz /opt/intel/openvino_2022.3.1 --owner=0 --group=0 --no-same-owner --no-same-permissions
 
 sudo ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino_2022
 sudo ln -sf /opt/intel/openvino_2022.3.1 /opt/intel/openvino

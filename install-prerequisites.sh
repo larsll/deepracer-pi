@@ -39,7 +39,7 @@ ufw allow "OpenSSH"
 ufw enable
 
 # Install other tools / configure network management
-apt -y install network-manager wireless-tools net-tools i2c-tools libraspberrypi-bin raspi-config
+apt -y install network-manager wireless-tools net-tools i2c-tools v4l-utils libraspberrypi-bin raspi-config
 cp $DIR/files/10-manage-wifi.conf /etc/NetworkManager/conf.d/
 systemctl disable systemd-networkd-wait-online
 

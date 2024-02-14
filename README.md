@@ -51,13 +51,13 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 
 ## PWM Outputs
 
-| Channel | Purpose          | Notes                                    |
-| ------- | ---------------- | ---------------------------------------- |
-| 0       | Speed controller | Remove red cable for stock DeepRacer ESC |
+| Channel | Purpose          | Notes                                                                   |
+| ------- | ---------------- | ----------------------------------------------------------------------- |
+| 0       | Speed controller | <span style="color:red">Remove red cable for stock DeepRacer ESC</span> |
 | 1       | Steering servo   |
-| 2       | RGB LED          | Tail light                               |
-| 3       | RGB LED          | Tail light                               |
-| 4       | RGB LED          | Tail light                               |
+| 2       | RGB LED          | Tail light                                                              |
+| 3       | RGB LED          | Tail light                                                              |
+| 4       | RGB LED          | Tail light                                                              |
 | 5       |
 | 6       |
 | 7       | RGB LED          |
@@ -69,6 +69,8 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 | 13      | RGB LED          |
 | 14      | RGB LED          |
 | 15      | RGB LED          |
+
+<span style="color:red">**NOTE:** Remove the red cable on the stock DeepRacer from the speed controller into PWM channel 0, otherwise you are putting 6V into the servo hat.</span>
 
 LiPo can power both the board and car, 3 pin (balance lead) gets wired to VIN (black and red cables only) to power the board and RPi. The 2 pin power cable goes to the car as normal.
 

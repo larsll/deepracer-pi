@@ -26,7 +26,7 @@ rosdep init && rosdep update --rosdistro=humble
 pip3 install -U "setuptools<50" pip "cython<3" "wheel==0.42.0" testresources
 
 # Get OpenVINO
-mkdir $DIR/dist/
+mkdir -p $DIR/dist/
 cd $DIR/dist/
 [ ! -f "$DIR/dist/openvino_2022.3.1_arm64.tgz" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/openvino_2022.3.1_arm64.tgz
 cd /

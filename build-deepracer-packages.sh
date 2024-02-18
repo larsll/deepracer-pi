@@ -33,6 +33,7 @@ rm -rf opt/aws/deepracer/camera/installed/bin/mxuvc \
 cp $DIR/deps/geocam-bin-armhf/files/usr/bin/mxcam opt/aws/deepracer/camera/installed/bin
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
+sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
 cd ..
 dpkg-deb --root-owner-group -b aws-deepracer-util
 dpkg-name -o aws-deepracer-util.deb 

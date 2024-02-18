@@ -48,7 +48,7 @@ pip3 install -U pyudev \
     "protobuf" \
     "tensorboard" \
     "blinker==1.4" \
-    pyclean
+    pyclean \
     /opt/intel/openvino_2022.3.1/tools/openvino_dev-2022.3.1-1-py3-none-any.whl \
     /opt/intel/openvino_2022.3.1/tools/openvino-2022.3.1-1-cp310-cp310-manylinux_2_35_aarch64.whl
 

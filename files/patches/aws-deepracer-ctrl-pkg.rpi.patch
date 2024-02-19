@@ -83,7 +83,7 @@ index b82b35e..eb78cfb 100644
 \ No newline at end of file
 +#endif
 diff --git a/ctrl_pkg/src/ctrl_node.cpp b/ctrl_pkg/src/ctrl_node.cpp
-index 78aabe4..57d833a 100644
+index 78aabe4..4b62324 100644
 --- a/ctrl_pkg/src/ctrl_node.cpp
 +++ b/ctrl_pkg/src/ctrl_node.cpp
 @@ -68,7 +68,7 @@ namespace SysCtrl {
@@ -158,7 +158,17 @@ index 78aabe4..57d833a 100644
              setAutonomousThrottleService_ = this->create_service<deepracer_interfaces_pkg::srv::NavThrottleSrv>(AUTONOMOUS_THROTTLE_SRV,
                                                                                                                  std::bind(&SysCtrl::CtrlNodeMgr::autoThrottleHdl,
                                                                                                                  this,
-@@ -262,7 +262,7 @@ namespace SysCtrl {
+@@ -205,7 +205,8 @@ namespace SysCtrl {
+                                                                                              videoClientCbGrp_);
+             while (!videoClient_->wait_for_service(std::chrono::seconds(1))) {
+                 if (!rclcpp::ok()) {
+-                    RCLCPP_ERROR(this->get_logger(), "Camera node failed");
++                    RCLCPP_ERROR(this->get_logger(), "Waiting for camera node was interrupted");
++                    return;
+                 }
+                 RCLCPP_INFO(this->get_logger(), "Camera node not available, waiting again...");
+             }
+@@ -262,7 +263,7 @@ namespace SysCtrl {
          void loadModelHdl(const std::shared_ptr<rmw_request_id_t> request_header,
                            std::shared_ptr<deepracer_interfaces_pkg::srv::ModelStateSrv::Request> req,
                            std::shared_ptr<deepracer_interfaces_pkg::srv::ModelStateSrv::Response> res) {
@@ -167,7 +177,7 @@ index 78aabe4..57d833a 100644
              res->error = 1;
              if (activeState_ == stateList_.end()) {
                  RCLCPP_ERROR(this->get_logger(), "No active state");
-@@ -403,26 +403,26 @@ namespace SysCtrl {
+@@ -403,26 +404,26 @@ namespace SysCtrl {
          std::unordered_map<int, std::shared_ptr<CtrlStateBase>>::const_iterator activeState_;
  
          /// ROS callback group object to be passed to the videoClient_.
@@ -204,10 +214,20 @@ index 78aabe4..57d833a 100644
      };
  }
 diff --git a/ctrl_pkg/src/ctrl_state.cpp b/ctrl_pkg/src/ctrl_state.cpp
-index a75a58a..b9bffe5 100644
+index a75a58a..80fc12d 100644
 --- a/ctrl_pkg/src/ctrl_state.cpp
 +++ b/ctrl_pkg/src/ctrl_state.cpp
-@@ -85,37 +85,37 @@ namespace SysCtrl {
+@@ -49,7 +49,8 @@ namespace {
+                         std::shared_ptr<rclcpp::Node> ctrlNode) {
+         while (!client->wait_for_service(std::chrono::seconds(1))) {
+             if (!rclcpp::ok()) {
+-                RCLCPP_ERROR(ctrlNode->get_logger(), "%s node failed", client->get_service_name());
++                RCLCPP_ERROR(ctrlNode->get_logger(), "Waiting for %s node was interrupted", client->get_service_name());
++                return;
+             }
+             RCLCPP_INFO(ctrlNode->get_logger(), "%s not available, waiting again...", client->get_service_name());
+         }
+@@ -85,37 +86,37 @@ namespace SysCtrl {
                                                                                                 rclcpp::SubscriptionOptions(),
                                                                                                 servoMsgStrategy);
          
@@ -251,7 +271,7 @@ index a75a58a..b9bffe5 100644
          navigationThrottleClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::NavThrottleSrv>(NAV_THROTTLE_SRV,
                                                                                            rmw_qos_profile_services_default,
                                                                                            navigationThrottleClientCbGrp_);
-@@ -323,7 +323,7 @@ namespace SysCtrl {
+@@ -323,7 +324,7 @@ namespace SysCtrl {
                                                                                                 rclcpp::SubscriptionOptions(),
                                                                                                 servoMsgStrategy);
  
@@ -260,7 +280,7 @@ index a75a58a..b9bffe5 100644
          servoGPIOClient_ = ctrlNode->create_client<deepracer_interfaces_pkg::srv::ServoGPIOSrv>(SERVO_GPIO_SRV,
                                                                                                  rmw_qos_profile_services_default,
                                                                                                  servoGPIOClientCbGrp_);
-@@ -424,31 +424,31 @@ namespace SysCtrl {
+@@ -424,31 +425,31 @@ namespace SysCtrl {
                                                                                                 rclcpp::SubscriptionOptions(),
                                                                                                 servoMsgStrategy);
  

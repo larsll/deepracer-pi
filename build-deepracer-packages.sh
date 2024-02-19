@@ -31,6 +31,7 @@ rm -rf opt/aws/deepracer/camera/installed/bin/mxuvc \
        opt/aws/deepracer/camera/installed/bin/querydump \
        opt/aws/deepracer/camera/installed/lib
 cp $DIR/deps/geocam-bin-armhf/files/usr/bin/mxcam opt/aws/deepracer/camera/installed/bin
+cp $DIR/files/aws_deepracer-community.list etc/apt/sources.list.d/aws_deepracer.list
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
 sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
@@ -59,6 +60,7 @@ cd aws-deepracer-core
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
 sed -i 's/python-apt/python3-apt/' DEBIAN/control
+sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
 rm -rf opt/aws/deepracer/lib/*
 cp $DIR/files/start_ros.sh opt/aws/deepracer
 cp -r $DIR/bundle_ws/install/* opt/aws/deepracer/lib/

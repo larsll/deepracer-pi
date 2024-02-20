@@ -60,6 +60,7 @@ cd aws-deepracer-core
 sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
 sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
 sed -i 's/python-apt/python3-apt/' DEBIAN/control
+sed -i '/Depends/ s/$/, gnupg/' DEBIAN/control
 sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
 rm -rf opt/aws/deepracer/lib/*
 cp $DIR/files/start_ros.sh opt/aws/deepracer

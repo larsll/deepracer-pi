@@ -54,10 +54,10 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 | Channel | Purpose          | Notes                                                                   |
 | ------- | ---------------- | ----------------------------------------------------------------------- |
 | 0       | Speed controller | <span style="color:red">Remove red cable for stock DeepRacer ESC</span> |
-| 1       | Steering servo   |
-| 2       | RGB LED          | Tail light                                                              |
-| 3       | RGB LED          | Tail light                                                              |
-| 4       | RGB LED          | Tail light                                                              |
+| 1       | Steering servo   |                                                                         |
+| 2       | RGB LED          | Tail light - Red                                                        |
+| 3       | RGB LED          | Tail light - Green                                                      |
+| 4       | RGB LED          | Tail light - Blue                                                       |
 | 5       |
 | 6       |
 | 7       | RGB LED          |

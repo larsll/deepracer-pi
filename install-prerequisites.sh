@@ -48,5 +48,5 @@ sed -i 's/renderer: networkd/renderer: NetworkManager/' /etc/netplan/50-cloud-in
 echo -e "\nRestarting the network stack. This might require reconnection. Pi might receive a new IP address."
 echo -e "If using Raspberry Pi Camera please run raspi-config and enable legacy camera support.\n"
 echo -e "After script has finished, reboot.\n"
-systemctl restart network-manager
+systemctl restart NetworkManager
 netplan apply

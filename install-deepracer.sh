@@ -53,8 +53,8 @@ pip3 install -U pyudev \
     /opt/intel/openvino_2022.3.1/tools/openvino-2022.3.1-1-cp310-cp310-manylinux_2_35_aarch64.whl
 
 # Install packages
-cp files/aws_deepracer-community.list /etc/apt/sources.list.d/aws_deepracer.list
-cp files/deepracer-larsll.asc /etc/apt/trusted.gpg.d/
+cp $DIR/files/aws_deepracer-community.list /etc/apt/sources.list.d/aws_deepracer.list
+cp $DIR/files/deepracer-larsll.asc /etc/apt/trusted.gpg.d/
 apt update && apt install aws-deepracer-core aws-deepracer-device-console aws-deepracer-util aws-deepracer-sample-models
 
 # Disable deepracer-core until we are ready

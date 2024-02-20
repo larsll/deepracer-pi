@@ -1,3 +1,53 @@
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
+index 5ac27af..a40cc76 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
+@@ -181,6 +181,15 @@ class ModelLoaderNode(Node):
+ 
+         self.get_logger().info("Model Loader node successfully created")
+ 
++    def __enter__(self):
++        return self
++
++    def __exit__(self, exc_type, exc_value, traceback):
++        """Called when the object is destroyed.
++        """
++        self.destroy_timer(self.timer)
++        self.scheduler.schedule_exit()
++
+     def timer_callback(self):
+         """Heartbeat function to keep the node alive.
+         """
+@@ -722,15 +731,20 @@ class ModelLoaderNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    model_loader_node = ModelLoaderNode()
+-    executor = MultiThreadedExecutor()
+-    rclpy.spin(model_loader_node, executor)
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    model_loader_node.destroy_node()
+-    rclpy.shutdown()
++    try:
++        rclpy.init(args=args)
++        with ModelLoaderNode() as model_loader_node:
++            executor = MultiThreadedExecutor()
++            rclpy.spin(model_loader_node, executor)
++            model_loader_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()
++
+ 
+ 
+ if __name__ == "__main__":
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py
 index c4ff558..76f73a3 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_config.py
@@ -11,6 +61,58 @@ index c4ff558..76f73a3 100644
  CHASSIS_SERIAL = os.path.join(os.sep, "sys", "class", "dmi", "id", "chassis_serial")
  
  SCHEDULE_CONFIG_UPDATE_CB = "schedule_config_update"
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
+index 587afeb..c4c48fa 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
+@@ -200,6 +200,17 @@ class NetworkMonitorNode(Node):
+         self.led_solid_request.hold = 0.0
+         self.led_solid_service.call_async(self.led_solid_request)
+ 
++        self.destroy_timer(self.timer)
++        self.destroy_timer(self.status_publisher_timer)
++
++        if network_config.ENABLE_NETWORK_LED_UPDATE:
++            self.destroy_timer(self.update_status_LED_timer)
++
++        if network_config.ENABLE_REPORT_STATE_UPDATE:
++            self.destroy_timer(self.report_state_timer)
++
++        self.scheduler.schedule_exit()
++
+     def usb_file_system_notification_cb(self, notification_msg):
+         """Callback for messages triggered whenever usb_monitor_node identifies a file/folder
+            thats being tracked.
+@@ -492,15 +503,20 @@ class NetworkMonitorNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    with NetworkMonitorNode() as network_monitor_node:
+-        executor = MultiThreadedExecutor()
+-        rclpy.spin(network_monitor_node, executor)
+-        # Destroy the node explicitly
+-        # (optional - otherwise it will be done automatically
+-        # when the garbage collector destroys the node object)
+-        network_monitor_node.destroy_node()
+-    rclpy.shutdown()
++
++    try:
++        rclpy.init(args=args)
++        with NetworkMonitorNode() as network_monitor_node:
++            executor = MultiThreadedExecutor()
++            rclpy.spin(network_monitor_node, executor)
++            network_monitor_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++    
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()
+ 
+ 
+ if __name__ == "__main__":
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py
 index d1a6ff0..d69acbd 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_utils.py
@@ -37,6 +139,51 @@ index dd6670d..06d862c 100644
  OTG_CHECK_PERIOD_IN_SECONDS = 2
  
  OTG_STATE_DIRECTORY = os.path.join(os.sep, "sys", "kernel", "debug", "dwc3.0.auto")
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
+index 3235515..481e4e5 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
+@@ -124,9 +124,12 @@ class OTGControlNode(Node):
+     def __exit__(self, exc_type, exc_value, traceback):
+         """Called when the object is destroyed.
+         """
++        self.destroy_timer(self.timer)
++        self.scheduler.schedule_exit()
++
+         if otg_config.ENABLE_OTG_PERIODIC_CHECK:
+             self.disable_otg()
+-            self.otg_check_timer.__exit__(exc_type, exc_value, traceback)
++            self.destroy_timer(self.otg_check_timer)
+ 
+     def check_otg_connection(self):
+         """Wrapper function to schedule the otg_connection_change function whenver
+@@ -231,14 +234,18 @@ class OTGControlNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    with OTGControlNode() as otg_control_node:
+-        rclpy.spin(otg_control_node)
+-        # Destroy the node explicitly
+-        # (optional - otherwise it will be done automatically
+-        # when the garbage collector destroys the node object)
+-        otg_control_node.destroy_node()
+-    rclpy.shutdown()
++    try:
++        rclpy.init(args=args)
++        with OTGControlNode() as otg_control_node:
++            rclpy.spin(otg_control_node)
++            otg_control_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()
+ 
+ 
+ if __name__ == "__main__":
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py
 index e9bb427..ac52ea0 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_config.py
@@ -50,3 +197,68 @@ index e9bb427..ac52ea0 100644
  SOFTWARE_UPDATE_PERIOD_IN_SECONDS = (60.0 * 15)
  MIN_TIME_BEFORE_REBOOT_IN_SECONDS = 10
  SOFTWARE_UPDATE_RETRY_SLEEP_IN_SECONDS = (30.0 * 15)
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
+index 7727458..4f0588c 100644
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
+@@ -245,6 +245,18 @@ class SoftwareUpdateNode(Node):
+ 
+         self.get_logger().info("Software Update node successfully created")
+ 
++    def __enter__(self):
++        return self
++
++    def __exit__(self, exc_type, exc_value, traceback):
++        """Called when the object is destroyed.
++        """
++        self.destroy_timer(self.timer)
++        self.scheduler.schedule_exit()
++
++        if software_update_config.ENABLE_PERIODIC_SOFTWARE_UPDATE:
++            self.destroy_timer(self.update_check_timer)
++
+     def timer_callback(self):
+         """Heartbeat function to keep the node alive.
+         """
+@@ -760,16 +772,20 @@ class SoftwareUpdateNode(Node):
+         self.software_update_pct_publisher.publish(pct_obj)
+ 
+ 
+-def main(args=None):
+-    rclpy.init(args=args)
+-    software_update_node = SoftwareUpdateNode()
+-    executor = MultiThreadedExecutor()
+-    rclpy.spin(software_update_node, executor)
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    software_update_node.destroy_node()
+-    rclpy.shutdown()
++def main(args=None):  
++    try:
++        rclpy.init(args=args)
++        with SoftwareUpdateNode() as software_update_node:
++            executor = MultiThreadedExecutor()
++            rclpy.spin(software_update_node, executor)
++            software_update_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/deepracer_systems_pkg/setup.cfg b/deepracer_systems_pkg/setup.cfg
+index 908ad0e..1c3089c 100644
+--- a/deepracer_systems_pkg/setup.cfg
++++ b/deepracer_systems_pkg/setup.cfg
+@@ -1,4 +1,4 @@
+ [develop]
+-script-dir=$base/lib/deepracer_systems_pkg
++script_dir=$base/lib/deepracer_systems_pkg
+ [install]
+-install-scripts=$base/lib/deepracer_systems_pkg
++install_scripts=$base/lib/deepracer_systems_pkg

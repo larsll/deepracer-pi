@@ -48,16 +48,14 @@ pip3 install -U pyudev \
     "protobuf" \
     "tensorboard" \
     "blinker==1.4" \
+    pyclean \
     /opt/intel/openvino_2022.3.1/tools/openvino_dev-2022.3.1-1-py3-none-any.whl \
     /opt/intel/openvino_2022.3.1/tools/openvino-2022.3.1-1-cp310-cp310-manylinux_2_35_aarch64.whl
 
 # Install packages
-cd $DIR/dist/
-[ ! -f "$DIR/dist/aws-deepracer-core_2.0.383.2%2Bcommunity_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/aws-deepracer-core_2.0.383.3%2Bhumble%2Bcommunity_arm64.deb
-[ ! -f "$DIR/dist/aws-deepracer-device-console_2.0.196.0_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/aws-deepracer-device-console_2.0.196.0_arm64.deb
-[ ! -f "$DIR/dist/aws-deepracer-sample-models_2.0.9.0_all.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/aws-deepracer-sample-models_2.0.9.0_all.deb
-[ ! -f "$DIR/dist/aws-deepracer-util_2.0.61.0_arm64.deb" ] && curl -O https://larsll-build-artifact-share.s3.eu-north-1.amazonaws.com/deepracer-pi-2204/aws-deepracer-util_2.0.61.0_arm64.deb
-apt install -y ./*.deb
+cp $DIR/files/aws_deepracer-community.list /etc/apt/sources.list.d/aws_deepracer.list
+cp $DIR/files/deepracer-larsll.asc /etc/apt/trusted.gpg.d/
+apt update && apt install aws-deepracer-core aws-deepracer-device-console aws-deepracer-util aws-deepracer-sample-models
 
 # Disable deepracer-core until we are ready
 systemctl disable deepracer-core

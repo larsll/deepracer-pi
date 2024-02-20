@@ -1,21 +1,46 @@
+diff --git a/webserver_pkg/setup.cfg b/webserver_pkg/setup.cfg
+index 48c7417..033b892 100644
+--- a/webserver_pkg/setup.cfg
++++ b/webserver_pkg/setup.cfg
+@@ -1,4 +1,4 @@
+ [develop]
+-script-dir=$base/lib/webserver_pkg
++script_dir=$base/lib/webserver_pkg
+ [install]
+-install-scripts=$base/lib/webserver_pkg
++install_scripts=$base/lib/webserver_pkg
+diff --git a/webserver_pkg/webserver_pkg/device_info_api.py b/webserver_pkg/webserver_pkg/device_info_api.py
+index 8738ede..203cbde 100644
+--- a/webserver_pkg/webserver_pkg/device_info_api.py
++++ b/webserver_pkg/webserver_pkg/device_info_api.py
+@@ -90,7 +90,7 @@ def get_battery_level():
+                 "battery_level": battery_level_res.level,
+                 "success": True
+             }
+-            webserver_node.get_logger().info(f"Battery Level: {data['battery_level']}")
++            webserver_node.get_logger().debug(f"Battery Level: {data['battery_level']}")
+             return jsonify(data)
+         else:
+             return jsonify(success=False, reason="Error")
 diff --git a/webserver_pkg/webserver_pkg/login.py b/webserver_pkg/webserver_pkg/login.py
-index b5fe8bb..ebbaff1 100755
+index b5fe8bb..317b265 100755
 --- a/webserver_pkg/webserver_pkg/login.py
 +++ b/webserver_pkg/webserver_pkg/login.py
-@@ -193,7 +193,7 @@ def check_authentication():
+@@ -193,7 +193,8 @@ def check_authentication():
  
      cookie_val = str(request.cookies.get(DEEPRACER_TOKEN))
      status = True if(hmac.compare_digest(cookie_val, token)) else False
 -    webserver_node.get_logger().info(f"Cookie compare status: {status}")
-+    webserver_node.get_logger().debug(f"Cookie compare status: {status}")
++    if webserver_node is not None:
++        webserver_node.get_logger().debug(f"Cookie compare status: {status}")
      return status, cookie_val
  
  
 diff --git a/webserver_pkg/webserver_pkg/utility.py b/webserver_pkg/webserver_pkg/utility.py
-index 4544d0d..faf9f96 100755
+index 4544d0d..6b304d9 100755
 --- a/webserver_pkg/webserver_pkg/utility.py
 +++ b/webserver_pkg/webserver_pkg/utility.py
-@@ -45,14 +45,14 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
+@@ -45,18 +45,18 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
      """
      webserver_node = webserver_publisher_node.get_webserver_node()
      if cli.service_is_ready():
@@ -32,6 +57,11 @@ index 4544d0d..faf9f96 100755
          elapsed_time = 0
          while not future.done():
              if elapsed_time == int(elapsed_time):
+-                webserver_node.get_logger().info(f"Service call not finished: {sequence} {cli.srv_name}")
++                webserver_node.get_logger().debug(f"Service call not finished: {sequence} {cli.srv_name}")
+             time.sleep(sleep_time)
+             elapsed_time += sleep_time
+             if elapsed_time >= timeout:
 @@ -66,13 +66,13 @@ def call_service_sync(cli, req, timeout=10, sleep_time=0.01):
                  if future.cancelled():
                      webserver_node.get_logger().error(f"Service was cancelled: {sequence} {cli.srv_name}")
@@ -64,4 +94,46 @@ index 4544d0d..faf9f96 100755
 +    webserver_node.get_logger().debug(f"{cmd} : execute output: {stdout}")
  
      return proc.returncode, stdout
+ 
+diff --git a/webserver_pkg/webserver_pkg/webserver.py b/webserver_pkg/webserver_pkg/webserver.py
+index 2c0a76f..61ab9e0 100755
+--- a/webserver_pkg/webserver_pkg/webserver.py
++++ b/webserver_pkg/webserver_pkg/webserver.py
+@@ -23,6 +23,7 @@ This is the main module used to create the flask application object. All the blu
+ are imported and registered with the application object.
+ """
+ 
++import logging
+ import os
+ from flask_cors import CORS
+ from flask import Flask
+@@ -42,6 +43,7 @@ from webserver_pkg.wifi_settings import WIFI_SETTINGS_BLUEPRINT
+ template_dir = os.path.abspath('/opt/aws/deepracer/lib/device_console/templates')
+ # Create the Flask application object.
+ app = Flask(__name__, template_folder=template_dir)
++logging.getLogger('werkzeug').disabled = True
+ CORS(app)
+ csrf = CSRFProtect()
+ # Initialize the application with CSRF and register all the API blueprints.
+@@ -58,7 +60,7 @@ app.register_blueprint(DEVICE_INFO_API_BLUEPRINT)
+ app.register_blueprint(MODELS_BLUEPRINT)
+ 
+ app.config.update(
+-    DEBUG=True,
++    DEBUG=False,
+     SECRET_KEY='secret_',
+     SESSION_COOKIE_SECURE=True,
+     REMEMBER_COOKIE_SECURE=True)
+diff --git a/webserver_pkg/webserver_pkg/wifi_settings.py b/webserver_pkg/webserver_pkg/wifi_settings.py
+index a9582f4..c106a49 100755
+--- a/webserver_pkg/webserver_pkg/wifi_settings.py
++++ b/webserver_pkg/webserver_pkg/wifi_settings.py
+@@ -50,7 +50,7 @@ def check_usb_connection():
+     except Exception as arg:
+         webserver_node.get_logger().info(f"USB connection check exception: {arg}")
+ 
+-    webserver_node.get_logger().info(f"Check OTG Link State: {is_usb_connected}")
++    webserver_node.get_logger().debug(f"Check OTG Link State: {is_usb_connected}")
+     return {"success": True, "is_usb_connected": is_usb_connected}
+ 
  

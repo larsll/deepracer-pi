@@ -154,7 +154,7 @@ def launch_setup(context, *args, **kwargs):
         namespace='webserver_pkg',
         executable='webserver_publisher_node',
         name='webserver_publisher_node',
-        arguments=['--ros-args', '--log-level', 'warn']
+        arguments=['--ros-args', '--log-level', 'info']
     )
     web_video_server_node = Node(
         package='web_video_server',

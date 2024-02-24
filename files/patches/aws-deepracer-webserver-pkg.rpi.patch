@@ -36,6 +36,40 @@ index b5fe8bb..317b265 100755
      return status, cookie_val
  
  
+diff --git a/webserver_pkg/webserver_pkg/ssh_api.py b/webserver_pkg/webserver_pkg/ssh_api.py
+index 0c856a3..6747c02 100644
+--- a/webserver_pkg/webserver_pkg/ssh_api.py
++++ b/webserver_pkg/webserver_pkg/ssh_api.py
+@@ -50,7 +50,7 @@ def is_ssh_enabled():
+         # Check SSH status
+         if utility.execute("/bin/systemctl --no-pager status ssh", shlex_split=True)[1].find("active (running)") > -1:
+             # Check UFW status
+-            stdout = utility.execute("/usr/sbin/ufw status", shlex_split=True)[1]
++            stdout = utility.execute("/usr/sbin/ufw status verbose", shlex_split=True)[1]
+             if re.search("22.*ALLOW", stdout):
+                 return jsonify(success=True,
+                                isSshEnabled=True,
+@@ -80,9 +80,9 @@ def enable_ssh():
+     webserver_node.get_logger().info("Enabling SSH")
+     try:
+         # Start SSH
+-        utility.execute("/usr/sbin/service ssh start", shlex_split=True)
++        utility.execute("/bin/systemctl enable ssh && /bin/systemctl start ssh", shlex_split=True)
+         # Allow SSH
+-        utility.execute("/usr/sbin/ufw allow ssh", shlex_split=True)
++        utility.execute("/usr/sbin/ufw allow OpenSSH", shlex_split=True)
+         return jsonify(success=True, isSshEnabled=True, reason="Ssh enabled.")
+     except Exception as ex:
+         webserver_node.get_logger().error(f"Failed to enable ssh: {ex}")
+@@ -101,7 +101,7 @@ def disable_ssh():
+     webserver_node.get_logger().info("Disabling SSH")
+     try:
+         # Stop SSH
+-        utility.execute("/usr/sbin/service ssh stop", shlex_split=True)
++        utility.execute("/bin/systemctl disable ssh && /bin/systemctl stop ssh", shlex_split=True)
+         return jsonify(success=True, isSshEnabled=False, reason="Ssh disabled.")
+     except Exception as ex:
+         webserver_node.get_logger().error(f"Failed to disable ssh: {ex}")
 diff --git a/webserver_pkg/webserver_pkg/utility.py b/webserver_pkg/webserver_pkg/utility.py
 index 4544d0d..6b304d9 100755
 --- a/webserver_pkg/webserver_pkg/utility.py
@@ -124,6 +158,44 @@ index 2c0a76f..61ab9e0 100755
      SECRET_KEY='secret_',
      SESSION_COOKIE_SECURE=True,
      REMEMBER_COOKIE_SECURE=True)
+diff --git a/webserver_pkg/webserver_pkg/webserver_publisher_node.py b/webserver_pkg/webserver_pkg/webserver_publisher_node.py
+index 1b110b7..df9481e 100755
+--- a/webserver_pkg/webserver_pkg/webserver_publisher_node.py
++++ b/webserver_pkg/webserver_pkg/webserver_publisher_node.py
+@@ -354,16 +354,23 @@ def get_webserver_node():
+ 
+ 
+ def main(args=None):
+-    global webserver_node
+-    rclpy.init(args=args)
+-    webserver_node = WebServerNode()
+-    executor = MultiThreadedExecutor()
+-    rclpy.spin(webserver_node, executor)
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    webserver_node.destroy_node()
+-    rclpy.shutdown()
++    try:
++        global webserver_node
++        rclpy.init(args=args)
++        webserver_node = WebServerNode()
++        executor = MultiThreadedExecutor()
++        rclpy.spin(webserver_node, executor)
++        # Destroy the node explicitly
++        # (optional - otherwise it will be done automatically
++        # when the garbage collector destroys the node object)
++        webserver_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++    
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()    
+ 
+ 
+ if __name__ == "__main__":
 diff --git a/webserver_pkg/webserver_pkg/wifi_settings.py b/webserver_pkg/webserver_pkg/wifi_settings.py
 index a9582f4..c106a49 100755
 --- a/webserver_pkg/webserver_pkg/wifi_settings.py

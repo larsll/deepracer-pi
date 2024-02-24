@@ -1,5 +1,5 @@
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
-index d0c7722..57b5d58 100755
+index d0c7722..910d3f8 100755
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
 @@ -46,6 +46,16 @@ class DeepracerSystemsScriptsNode(Node):
@@ -19,6 +19,39 @@ index d0c7722..57b5d58 100755
      def run_dependencies(self):
          """Timer callback which runs the dependency scripts if not run previously.
          """
+@@ -121,15 +131,23 @@ class DeepracerSystemsScriptsNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    deepracer_systems_script_node = DeepracerSystemsScriptsNode()
+-    executor = MultiThreadedExecutor()
+-    rclpy.spin(deepracer_systems_script_node, executor)
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    deepracer_systems_script_node.destroy_node()
+-    rclpy.shutdown()
++
++    try:
++        rclpy.init(args=args)
++        deepracer_systems_script_node = DeepracerSystemsScriptsNode()
++        executor = MultiThreadedExecutor()
++        rclpy.spin(deepracer_systems_script_node, executor)
++        # Destroy the node explicitly
++        # (optional - otherwise it will be done automatically
++        # when the garbage collector destroys the node object)
++        deepracer_systems_script_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++    
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()    
+ 
+ 
+ if __name__ == "__main__":
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
 index 5ac27af..a40cc76 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py

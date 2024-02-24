@@ -1,0 +1,47 @@
+diff --git a/usb_monitor_pkg/setup.cfg b/usb_monitor_pkg/setup.cfg
+index 58d3288..e40da3d 100644
+--- a/usb_monitor_pkg/setup.cfg
++++ b/usb_monitor_pkg/setup.cfg
+@@ -1,4 +1,4 @@
+ [develop]
+-script-dir=$base/lib/usb_monitor_pkg
++script_dir=$base/lib/usb_monitor_pkg
+ [install]
+-install-scripts=$base/lib/usb_monitor_pkg
++install_scripts=$base/lib/usb_monitor_pkg
+diff --git a/usb_monitor_pkg/usb_monitor_pkg/usb_monitor_node.py b/usb_monitor_pkg/usb_monitor_pkg/usb_monitor_node.py
+index 1fa0e5b..ec4e355 100644
+--- a/usb_monitor_pkg/usb_monitor_pkg/usb_monitor_node.py
++++ b/usb_monitor_pkg/usb_monitor_pkg/usb_monitor_node.py
+@@ -329,15 +329,22 @@ class USBMonitorNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    with USBMonitorNode() as usb_monitor_node:
+-        executor = MultiThreadedExecutor()
+-        rclpy.spin(usb_monitor_node, executor)
+-        # Destroy the node explicitly
+-        # (optional - otherwise it will be done automatically
+-        # when the garbage collector destroys the node object)
+-    usb_monitor_node.destroy_node()
+-    rclpy.shutdown()
++    try:
++        rclpy.init(args=args)
++        with USBMonitorNode() as usb_monitor_node:
++            executor = MultiThreadedExecutor()
++            rclpy.spin(usb_monitor_node, executor)
++            # Destroy the node explicitly
++            # (optional - otherwise it will be done automatically
++            # when the garbage collector destroys the node object)
++        usb_monitor_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++    
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()    
+ 
+ 
+ if __name__ == "__main__":

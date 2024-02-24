@@ -1,0 +1,46 @@
+diff --git a/device_info_pkg/device_info_pkg/device_info_node.py b/device_info_pkg/device_info_pkg/device_info_node.py
+index 36dda05..a0d953b 100644
+--- a/device_info_pkg/device_info_pkg/device_info_node.py
++++ b/device_info_pkg/device_info_pkg/device_info_node.py
+@@ -222,15 +222,22 @@ class DeviceInfoNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    device_info_node = DeviceInfoNode()
+-    rclpy.spin(device_info_node)
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    device_info_node.destroy_node()
+-    rclpy.shutdown()
+ 
++    try:
++        rclpy.init(args=args)
++        device_info_node = DeviceInfoNode()
++        rclpy.spin(device_info_node)
++        # Destroy the node explicitly
++        # (optional - otherwise it will be done automatically
++        # when the garbage collector destroys the node object)
++        device_info_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
++    
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()        
+ 
+ if __name__ == "__main__":
+     main()
+diff --git a/device_info_pkg/setup.cfg b/device_info_pkg/setup.cfg
+index 540f5d0..6178c86 100644
+--- a/device_info_pkg/setup.cfg
++++ b/device_info_pkg/setup.cfg
+@@ -1,4 +1,4 @@
+ [develop]
+-script-dir=$base/lib/device_info_pkg
++script_dir=$base/lib/device_info_pkg
+ [install]
+-install-scripts=$base/lib/device_info_pkg
++install_scripts=$base/lib/device_info_pkg

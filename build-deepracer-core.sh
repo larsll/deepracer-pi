@@ -102,6 +102,18 @@ cd aws-deepracer-sensor-fusion-pkg/
 git apply $DIR/files/patches/aws-deepracer-sensor-fusion-pkg.rpi.patch
 cd $DIR/bundle_ws
 
+cd aws-deepracer-usb-monitor-pkg/
+git apply $DIR/files/patches/aws-deepracer-usb-monitor-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-navigation-pkg/
+git apply $DIR/files/patches/aws-deepracer-navigation-pkg.rpi.patch
+cd $DIR/bundle_ws
+
+cd aws-deepracer-device-info-pkg/
+git apply $DIR/files/patches/aws-deepracer-device-info-pkg.rpi.patch
+cd $DIR/bundle_ws
+
 #
 # END - Patches
 #

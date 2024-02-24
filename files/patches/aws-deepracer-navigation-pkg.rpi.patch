@@ -1,0 +1,49 @@
+diff --git a/deepracer_navigation_pkg/deepracer_navigation_pkg/deepracer_navigation_node.py b/deepracer_navigation_pkg/deepracer_navigation_pkg/deepracer_navigation_node.py
+index bf1f77e..b7f96f9 100644
+--- a/deepracer_navigation_pkg/deepracer_navigation_pkg/deepracer_navigation_node.py
++++ b/deepracer_navigation_pkg/deepracer_navigation_pkg/deepracer_navigation_node.py
+@@ -348,17 +348,23 @@ class DRNavigationNode(Node):
+ 
+ 
+ def main(args=None):
+-    rclpy.init(args=args)
+-    dr_navigation_node = DRNavigationNode()
+-    executor = MultiThreadedExecutor()
+-    rclpy.spin(dr_navigation_node, executor)
++    try:
++        rclpy.init(args=args)
++        dr_navigation_node = DRNavigationNode()
++        executor = MultiThreadedExecutor()
++        rclpy.spin(dr_navigation_node, executor)
++        
++        # Destroy the node explicitly
++        # (optional - otherwise it will be done automatically
++        # when the garbage collector destroys the node object)
++        dr_navigation_node.destroy_node()
++
++    except KeyboardInterrupt:
++        pass
+     
+-    # Destroy the node explicitly
+-    # (optional - otherwise it will be done automatically
+-    # when the garbage collector destroys the node object)
+-    dr_navigation_node.destroy_node()
+-    rclpy.shutdown()
+-
++    finally:
++        if rclpy.ok():
++            rclpy.shutdown()    
+ 
+ if __name__ == '__main__':
+     main()
+diff --git a/deepracer_navigation_pkg/setup.cfg b/deepracer_navigation_pkg/setup.cfg
+index 2133f8f..6d19ccd 100644
+--- a/deepracer_navigation_pkg/setup.cfg
++++ b/deepracer_navigation_pkg/setup.cfg
+@@ -1,4 +1,4 @@
+ [develop]
+-script-dir=$base/lib/deepracer_navigation_pkg
++script_dir=$base/lib/deepracer_navigation_pkg
+ [install]
+-install-scripts=$base/lib/deepracer_navigation_pkg
++install_scripts=$base/lib/deepracer_navigation_pkg

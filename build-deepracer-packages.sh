@@ -78,8 +78,9 @@ do
               sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
               cd ..
               dpkg-deb --root-owner-group -b aws-deepracer-util
-              dpkg-name -o aws-deepracer-util.deb 
-              mv aws-deepracer-util_*_arm64.deb $DIR/dist/
+              dpkg-name -o aws-deepracer-util.deb
+              FILE=$(compgen -G aws-deepracer-util*.deb)
+              mv $FILE $(echo $DIR/dist/$FILE | sed -e 's/\+/\-/')
        fi
 
        if [ "$pkg" == "aws-deepracer-device-console" ];
@@ -95,7 +96,8 @@ do
               cd ..
               dpkg-deb --root-owner-group -b aws-deepracer-device-console
               dpkg-name -o aws-deepracer-device-console.deb 
-              mv aws-deepracer-device-console_*_arm64.deb $DIR/dist/
+              FILE=$(compgen -G aws-deepracer-device-console*.deb)
+              mv $FILE $(echo $DIR/dist/$FILE | sed -e 's/\+/\-/')
        fi
 
        if [ "$pkg" == "aws-deepracer-core" ];
@@ -116,7 +118,8 @@ do
               cd ..
               dpkg-deb --root-owner-group -b aws-deepracer-core
               dpkg-name -o aws-deepracer-core.deb 
-              mv aws-deepracer-core_*_arm64.deb $DIR/dist/
+              FILE=$(compgen -G aws-deepracer-core*.deb)
+              mv $FILE $(echo $DIR/dist/$FILE | sed -e 's/\+/\-/')
        fi
 
        if [ "$pkg" == "aws-deepracer-sample-models" ];
@@ -130,6 +133,7 @@ do
               cd ..
               dpkg-deb --root-owner-group -b aws-deepracer-sample-models
               dpkg-name -o aws-deepracer-sample-models.deb 
-              mv aws-deepracer-sample-models_*_all.deb $DIR/dist/
+              FILE=$(compgen -G aws-deepracer-sample-models*.deb)
+              mv $FILE $(echo $DIR/dist/$FILE | sed -e 's/\+/\-/')
        fi
 done

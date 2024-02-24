@@ -1,3 +1,24 @@
+diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
+index d0c7722..57b5d58 100755
+--- a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
++++ b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
+@@ -46,6 +46,16 @@ class DeepracerSystemsScriptsNode(Node):
+ 
+         self.uvc_logs_suppressed = False
+ 
++    def __enter__(self):
++        """Called when the node object is created using the 'with' statement.
++        """
++        return self
++
++    def __exit__(self, exc_type, exc_value, traceback):
++        """Called when the object is destroyed.
++        """
++        pass
++
+     def run_dependencies(self):
+         """Timer callback which runs the dependency scripts if not run previously.
+         """
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
 index 5ac27af..a40cc76 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/model_loader_module/model_loader_node.py
@@ -251,6 +272,43 @@ index 7727458..4f0588c 100644
  
  
  if __name__ == "__main__":
+diff --git a/deepracer_systems_pkg/launch/deepracer_systems_pkg_launch.py b/deepracer_systems_pkg/launch/deepracer_systems_pkg_launch.py
+index f9bb36a..bca495b 100644
+--- a/deepracer_systems_pkg/launch/deepracer_systems_pkg_launch.py
++++ b/deepracer_systems_pkg/launch/deepracer_systems_pkg_launch.py
+@@ -23,31 +23,6 @@ def generate_launch_description():
+         Node(
+             package='deepracer_systems_pkg',
+             namespace='deepracer_systems_pkg',
+-            executable='software_update_node',
+-            name='software_update_node'
+-        ),
+-        Node(
+-            package='deepracer_systems_pkg',
+-            namespace='deepracer_systems_pkg',
+-            executable='model_loader_node',
+-            name='model_loader_node'
+-        ),
+-        Node(
+-            package='deepracer_systems_pkg',
+-            namespace='deepracer_systems_pkg',
+-            executable='otg_control_node',
+-            name='otg_control_node'
+-        ),
+-        Node(
+-            package='deepracer_systems_pkg',
+-            namespace='deepracer_systems_pkg',
+-            executable='network_monitor_node',
+-            name='network_monitor_node'
+-        ),
+-        Node(
+-            package='deepracer_systems_pkg',
+-            namespace='deepracer_systems_pkg',
+-            executable='deepracer_systems_scripts_node',
+-            name='deepracer_systems_scripts_node'
++            executable='systems_startup'
+         )
+     ])
 diff --git a/deepracer_systems_pkg/setup.cfg b/deepracer_systems_pkg/setup.cfg
 index 908ad0e..1c3089c 100644
 --- a/deepracer_systems_pkg/setup.cfg
@@ -262,3 +320,17 @@ index 908ad0e..1c3089c 100644
  [install]
 -install-scripts=$base/lib/deepracer_systems_pkg
 +install_scripts=$base/lib/deepracer_systems_pkg
+diff --git a/deepracer_systems_pkg/setup.py b/deepracer_systems_pkg/setup.py
+index 3730e82..4c26917 100644
+--- a/deepracer_systems_pkg/setup.py
++++ b/deepracer_systems_pkg/setup.py
+@@ -50,7 +50,8 @@ setup(
+             'model_loader_node = deepracer_systems_pkg.model_loader_module.model_loader_node:main',
+             'otg_control_node = deepracer_systems_pkg.otg_module.otg_control_node:main',
+             'network_monitor_node = deepracer_systems_pkg.network_monitor_module.network_monitor_node:main',
+-            'deepracer_systems_scripts_node = deepracer_systems_pkg.deepracer_systems_scripts_module.deepracer_systems_scripts_node:main'
++            'deepracer_systems_scripts_node = deepracer_systems_pkg.deepracer_systems_scripts_module.deepracer_systems_scripts_node:main',
++            'system_nodes = deepracer_systems_pkg.system_nodes:main'
+         ],
+     },
+ )

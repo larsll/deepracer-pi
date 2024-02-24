@@ -98,6 +98,10 @@ cd aws-deepracer-model-optimizer-pkg/
 git apply $DIR/files/patches/aws-deepracer-model-optimizer-pkg.rpi.patch
 cd $DIR/bundle_ws
 
+cd aws-deepracer-sensor-fusion-pkg/
+git apply $DIR/files/patches/aws-deepracer-sensor-fusion-pkg.rpi.patch
+cd $DIR/bundle_ws
+
 #
 # END - Patches
 #
@@ -110,6 +114,7 @@ rm -rf install build log
 # Update deepracer_launcher.py (fix an issue in the file)
 cp ../files/deepracer_launcher.py ./aws-deepracer-launcher/deepracer_launcher/launch/deepracer_launcher.py
 
+export PYTHONWARNINGS=ignore:::setuptools.command.install
 # Build the core
 colcon build --packages-up-to deepracer_launcher rplidar_ros
 

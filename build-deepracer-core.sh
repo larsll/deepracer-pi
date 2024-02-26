@@ -25,8 +25,8 @@ rosws update
 # Update packages for PR's
 # https://github.com/aws-deepracer/aws-deepracer-inference-pkg/pull/4
 cd aws-deepracer-inference-pkg
-git fetch origin pull/4/head:compressed-image
-git checkout compressed-image
+git fetch origin pull/5/head:tflite
+git checkout tflite
 cd ..
 
 # https://github.com/aws-deepracer/aws-deepracer-camera-pkg/pull/5

@@ -49,8 +49,8 @@ cd ..
 
 # https://github.com/aws-deepracer/aws-deepracer-model-optimizer-pkg/pull/2
 cd aws-deepracer-model-optimizer-pkg
-git fetch origin pull/2/head:cache-load
-git checkout cache-load
+git fetch origin pull/3/head:tflite
+git checkout tflite
 cd ..
 
 # Resolve the dependanices

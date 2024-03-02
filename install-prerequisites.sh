@@ -18,7 +18,7 @@ apt update -y && apt remove -y unattended-upgrades
 
 # First ensure that the Ubuntu Universe repository is enabled.
 apt install -y software-properties-common curl locales
-add-apt-repository universe
+add-apt-repository -y universe
 apt update -y && apt upgrade -y
 
 # From https://medium.com/@nullbyte.in/raspberry-pi-4-ubuntu-20-04-lts-ros2-a-step-by-step-guide-to-installing-the-perfect-setup-57c523f9d790

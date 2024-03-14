@@ -56,7 +56,7 @@ pip3 install -U pyudev \
 # Install packages
 cp $DIR/files/aws_deepracer-community.list /etc/apt/sources.list.d/aws_deepracer.list
 cp $DIR/files/deepracer-larsll.asc /etc/apt/trusted.gpg.d/
-apt update && apt install aws-deepracer-core aws-deepracer-device-console aws-deepracer-util aws-deepracer-sample-models
+apt update -y && apt install -y aws-deepracer-core aws-deepracer-device-console aws-deepracer-util aws-deepracer-sample-models
 
 # Disable deepracer-core until we are ready
 systemctl disable deepracer-core

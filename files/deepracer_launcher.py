@@ -100,7 +100,8 @@ def launch_setup(context, *args, **kwargs):
         executable='inference_node',
         name='inference_node',
         parameters=[{
-                'device': LaunchConfiguration("inference_engine").perform(context)
+                'device': LaunchConfiguration("inference_device").perform(context),
+                'inference_engine': LaunchConfiguration("inference_engine").perform(context)
             }]
     )
     model_optimizer_node = Node(
@@ -217,8 +218,12 @@ def generate_launch_description():
                                 description="Resize camera input"),
                             DeclareLaunchArgument(
                                 name="inference_engine",
+                                default_value="TFLITE",
+                                description="Inference engine to use (TFLITE or OV)"),
+                            DeclareLaunchArgument(
+                                name="inference_device",
                                 default_value="CPU",
-                                description="Inference engine to use"),
+                                description="Inference device to use, applicable to OV only (CPU, GPU or MYRIAD)."),
                             DeclareLaunchArgument(
                                 name="logging_enable",
                                 default_value="False",

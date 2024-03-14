@@ -12,14 +12,14 @@ index a14fb5d..51cc5b8 100644
      class ServoMgr
          {
 diff --git a/servo_pkg/src/servo_node.cpp b/servo_pkg/src/servo_node.cpp
-index 631af08..7483aea 100644
+index 631af08..1a88136 100644
 --- a/servo_pkg/src/servo_node.cpp
 +++ b/servo_pkg/src/servo_node.cpp
 @@ -62,7 +62,7 @@ int main(int argc, char **argv) {
                                                                                                   std::placeholders::_1),
                                                                                          rclcpp::SubscriptionOptions(),
                                                                                          rawPWMMsgStrategy);
--    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
+-    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);                                                                                          
 +    auto servoCalServiceCbGrp_ = node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
      rclcpp::Service<deepracer_interfaces_pkg::srv::SetCalibrationSrv>::SharedPtr servoCalService =
          node->create_service<deepracer_interfaces_pkg::srv::SetCalibrationSrv>(SET_CAL_SERVICE_NAME,

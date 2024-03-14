@@ -15,7 +15,7 @@ index bf1f77e..b7f96f9 100644
 +        dr_navigation_node = DRNavigationNode()
 +        executor = MultiThreadedExecutor()
 +        rclpy.spin(dr_navigation_node, executor)
-+        
++
 +        # Destroy the node explicitly
 +        # (optional - otherwise it will be done automatically
 +        # when the garbage collector destroys the node object)
@@ -32,7 +32,7 @@ index bf1f77e..b7f96f9 100644
 -
 +    finally:
 +        if rclpy.ok():
-+            rclpy.shutdown()    
++            rclpy.shutdown()
  
  if __name__ == '__main__':
      main()

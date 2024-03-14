@@ -467,6 +467,8 @@ def main(args=None):
         output_arrays=[f'main_level/agent/{INPUT_HEAD_NAME_MAPPING[TrainingAlgorithms(training_algorithm)]}/online/network_1/ppo_head_0/policy']
     )
     converter.allow_custom_ops = True
+    converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    converter.target_spec.supported_types = [tf.float16]    
     tflite_model = converter.convert()
 
     with open(os.path.join(dir,"model.tflite"), 'wb') as f:

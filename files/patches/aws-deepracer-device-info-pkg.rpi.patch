@@ -26,10 +26,10 @@ index 36dda05..a0d953b 100644
 +
 +    except KeyboardInterrupt:
 +        pass
-+    
++
 +    finally:
 +        if rclpy.ok():
-+            rclpy.shutdown()        
++            rclpy.shutdown()
  
  if __name__ == "__main__":
      main()

@@ -8,7 +8,7 @@ on Ubuntu 22.04 with ROS2 Humble, but with most of original code. To make the im
 Main features of the port:
 
 - Previously trained models will work
-- Uses OpenVINO (for now), to keep inference identical to original car
+- Uses Tensorflow Lite or OpenVINO for inference. Supports the Intel Neural Compute Stick 2 (NCS2/MYRIAD)
 - Can integrate with DREM
 - Single power source¹ - reduces weight and lowers center of gravity
 
@@ -16,8 +16,8 @@ Main features of the port:
 
 The following parts are needed:
 
-- Raspberry 4 or compatible board, recommended 4Gb or 8Gb RAM, but 2Gb may also work.
-- [Intel Neural Compute Stick (NCS) 2](https://www.intel.com/content/www/us/en/developer/articles/tool/neural-compute-stick.html)
+- Raspberry 4 or compatible board, recommended 4GB or 8GB RAM, but even 1GB will work as memory consumption is about 700MB.
+- Optional: [Intel Neural Compute Stick (NCS) 2](https://www.intel.com/content/www/us/en/developer/articles/tool/neural-compute-stick.html)
 - [Waveshare Servo Driver Hat](https://www.waveshare.com/product/raspberry-pi/hats/motors-relays/servo-driver-hat.htm) or compatible PCA9865 servo boards.
 - USB camera with ~60 deg FOV, e.g. original DeepRacer camera or a Raspberry Pi camera.
 - 4 RGB light diodes
@@ -86,7 +86,6 @@ LiPo can power both the board and car, 3 pin (balance lead) gets wired to VIN (b
 
 ## What does not (yet) work
 
-- Support only for single camera, as the Neural Compute Stick does not support Evo configuration(s)
 - Battery gauge is not connected - red warning message persists
 - Device Info Node is looking in non-existent places - no real impact
 - OTG Network (USB Network) is disabled - requires testing

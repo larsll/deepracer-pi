@@ -11,6 +11,7 @@ Main features of the port:
 - Uses Tensorflow Lite or OpenVINO for inference. Supports the Intel Neural Compute Stick 2 (NCS2/MYRIAD)
 - Can integrate with DREM
 - Single power source¹ - reduces weight and lowers center of gravity
+- Over-the-Air Software Updates
 
 ## Parts
 

@@ -21,9 +21,10 @@ source /opt/intel/openvino_2022/setupvars.sh
 
 MYRIAD=$(lsusb | grep "Intel Movidius MyriadX")
 if [ -n "${MYRIAD}" ]; then
-    INFERENCE_ENGINE="MYRIAD"
+    INFERENCE_ENGINE='inference_engine:=OV'
+    INFERENCE_DEVICE='inference_device:=MYRIAD'
 else
-    INFERENCE_ENGINE="CPU"
+    INFERENCE_ENGINE='inference_engine:=TFLITE'
 fi
 
-ros2 launch deepracer_launcher deepracer_launcher.py inference_engine:=${INFERENCE_ENGINE}
+ros2 launch deepracer_launcher deepracer_launcher.py ${INFERENCE_ENGINE} ${INFERENCE_DEVICE}

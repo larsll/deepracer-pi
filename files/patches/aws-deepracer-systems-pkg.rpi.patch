@@ -45,10 +45,10 @@ index d0c7722..910d3f8 100755
 +
 +    except KeyboardInterrupt:
 +        pass
-+    
++
 +    finally:
 +        if rclpy.ok():
-+            rclpy.shutdown()    
++            rclpy.shutdown()
  
  
  if __name__ == "__main__":
@@ -160,7 +160,7 @@ index 587afeb..c4c48fa 100644
 +
 +    except KeyboardInterrupt:
 +        pass
-+    
++
 +    finally:
 +        if rclpy.ok():
 +            rclpy.shutdown()
@@ -288,7 +288,7 @@ index 7727458..4f0588c 100644
 -    # when the garbage collector destroys the node object)
 -    software_update_node.destroy_node()
 -    rclpy.shutdown()
-+def main(args=None):  
++def main(args=None):
 +    try:
 +        rclpy.init(args=args)
 +        with SoftwareUpdateNode() as software_update_node:

@@ -189,10 +189,10 @@ index 1b110b7..df9481e 100755
 +
 +    except KeyboardInterrupt:
 +        pass
-+    
++
 +    finally:
 +        if rclpy.ok():
-+            rclpy.shutdown()    
++            rclpy.shutdown()
  
  
  if __name__ == "__main__":

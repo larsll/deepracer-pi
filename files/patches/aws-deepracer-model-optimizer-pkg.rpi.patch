@@ -1,8 +1,8 @@
 diff --git a/model_optimizer_pkg/model_optimizer_pkg/constants.py b/model_optimizer_pkg/model_optimizer_pkg/constants.py
-index 3c7db1f..be75f9e 100644
+index 1a6d51e..55d1936 100644
 --- a/model_optimizer_pkg/model_optimizer_pkg/constants.py
 +++ b/model_optimizer_pkg/model_optimizer_pkg/constants.py
-@@ -24,9 +24,8 @@ MODEL_OPTIMIZER_SERVER_SERVICE_NAME = "model_optimizer_server"
+@@ -24,9 +24,9 @@ MODEL_OPTIMIZER_SERVER_SERVICE_NAME = "model_optimizer_server"
  
  # Static variables
  # Path where the Intel OpenVino is installed.
@@ -10,55 +10,67 @@ index 3c7db1f..be75f9e 100644
 -
 -PYTHON_BIN = "python3"
 +# INTEL_PATH = os.environ["INTEL_CVSDK_DIR"] + "/deployment_tools/model_optimizer/"
++#
 +# PYTHON_BIN = "python3"
  
  # Max retry count
  MAX_OPTIMIZER_RETRY_COUNT = 1
-@@ -103,9 +102,9 @@ class MOKeys(object):
+@@ -103,9 +103,9 @@ class ParamKeys(object):
      """
      MODEL_PATH = "--input_model"
      MODEL_NAME = "--model_name"
 -    DATA_TYPE = "--data_type"
 -    DISABLE_FUSE = "--disable_fusing"
 -    DISABLE_GFUSE = "--disable_gfusing"
-+    DATA_TYPE = ""		# Blocked
-+    DISABLE_FUSE = ""		# Blocked
-+    DISABLE_GFUSE = ""		# Blocked
++    DATA_TYPE = "--compress_to_fp16"
++    DISABLE_FUSE = ""  # Blocked
++    DISABLE_GFUSE = ""  # Blocked
      REV_CHANNELS = "--reverse_input_channels"
      OUT_DIR = "--output_dir"
      INPUT_SHAPE = "--input_shape"
 diff --git a/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py b/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
-index 6db49ac..787933c 100644
+index 2fabe02..0090ced 100644
 --- a/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
 +++ b/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
-@@ -171,7 +171,7 @@ class ModelOptimizerNode(Node):
-                                                                        input_width,
-                                                                        value))
+@@ -179,7 +179,8 @@ class ModelOptimizerNode(Node):
+                                                                           input_width,
+                                                                           value))
              elif flag is constants.APIFlags.PRECISION:
--                common_params[constants.MOKeys.DATA_TYPE] = value
-+                common_params[constants.MOKeys.DATA_TYPE] = ""  # Prevent data type
+-                common_params[constants.ParamKeys.DATA_TYPE] = value
++                if value is constants.APIDefaults.PRECISION:
++                    common_params[constants.ParamKeys.DATA_TYPE] = ""
              elif flag is constants.APIFlags.FUSE:
                  if value is not constants.APIDefaults.FUSE:
-                     common_params[constants.MOKeys.DISABLE_FUSE] = ""
-@@ -249,7 +249,7 @@ class ModelOptimizerNode(Node):
-                                    f"{common_params[constants.MOKeys.MODEL_NAME]}.xml")
-             
+                     common_params[constants.ParamKeys.DISABLE_FUSE] = ""
+@@ -259,7 +260,7 @@ class ModelOptimizerNode(Node):
+             return 0, os.path.join(common_params[constants.ParamKeys.OUT_DIR],
+                                    f"{common_params[constants.ParamKeys.MODEL_NAME]}.xml")
  
 -        cmd = f"{constants.PYTHON_BIN} {constants.INTEL_PATH}{mo_path}"
 +        cmd = f"{mo_path}"
          # Construct the cli command
          for flag, value in dict(common_params, **platform_parms).items():
              cmd += f" {flag} {value}"
-@@ -341,20 +341,28 @@ class ModelOptimizerNode(Node):
-                      "--tensorflow_use_custom_operations_config": ""}
-         # Add the correct file suffix.
-         common_params[constants.MOKeys.MODEL_PATH] += ".pbtxt" if "--input_model_is_text" in aux_inputs else ".pb"
--        return self.run_optimizer("mo_tf.py", common_params,
-+        return self.run_optimizer("mo", common_params,
-                                   self.set_platform_param(tf_params, aux_inputs))
+@@ -343,7 +344,7 @@ class ModelOptimizerNode(Node):
+             )
+             converter.allow_custom_ops = True
+ 
+-            if common_params[constants.ParamKeys.DATA_TYPE] == "FP16":
++            if constants.ParamKeys.DATA_TYPE in common_params:
+                 self.get_logger().info(f"Using float16 quantization.")
+                 converter.optimizations = [tf.lite.Optimize.DEFAULT]
+                 converter.target_spec.supported_types = [tf.float16]
+@@ -436,22 +437,28 @@ class ModelOptimizerNode(Node):
+         if self._inference_engine == "TFLITE":
+             return self.run_optimizer_tflite(common_params, training_algorithm)
+         else:
+-            return self.run_optimizer_mo("mo_tf.py", common_params,
++            return self.run_optimizer_mo("mo  --use_new_frontend", common_params,
+                                          self.set_platform_param(tf_params, aux_inputs))
  
  
  def main(args=None):
+-   
 -    rclpy.init(args=args)
 -    model_optimizer_node = ModelOptimizerNode()
 -    executor = MultiThreadedExecutor()
@@ -68,7 +80,7 @@ index 6db49ac..787933c 100644
 -    # when the garbage collector destroys the node object)
 -    model_optimizer_node.destroy_node()
 -    rclpy.shutdown()
-+
+ 
 +    try:
 +        rclpy.init(args=args)
 +        model_optimizer_node = ModelOptimizerNode()
@@ -81,21 +93,10 @@ index 6db49ac..787933c 100644
 +
 +    except KeyboardInterrupt:
 +        pass
-+    
++
 +    finally:
 +        if rclpy.ok():
-+            rclpy.shutdown()    
- 
++            rclpy.shutdown()
  
  if __name__ == "__main__":
-diff --git a/model_optimizer_pkg/setup.cfg b/model_optimizer_pkg/setup.cfg
-index 52b06cd..c8d138b 100644
---- a/model_optimizer_pkg/setup.cfg
-+++ b/model_optimizer_pkg/setup.cfg
-@@ -1,4 +1,4 @@
- [develop]
--script-dir=$base/lib/model_optimizer_pkg
-+script_dir=$base/lib/model_optimizer_pkg
- [install]
--install-scripts=$base/lib/model_optimizer_pkg
-+install_scripts=$base/lib/model_optimizer_pkg
+     main()

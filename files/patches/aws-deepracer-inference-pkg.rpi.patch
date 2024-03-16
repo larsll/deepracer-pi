@@ -1,17 +1,17 @@
 diff --git a/inference_pkg/src/inference_node.cpp b/inference_pkg/src/inference_node.cpp
-index 12628fd..672d3f5 100644
+index a5c8a5f..e865e5f 100644
 --- a/inference_pkg/src/inference_node.cpp
 +++ b/inference_pkg/src/inference_node.cpp
-@@ -53,7 +53,7 @@ namespace InferTask {
-             // Device name; OpenVINO supports CPU, GPU and MYRIAD
-             deviceName_ = this->get_parameter("device").as_string();
+@@ -59,7 +59,7 @@ namespace InferTask {
+             // Inference Engine name; TFLITE or OPENVINO
+             inferenceEngine_ = this->get_parameter("inference_engine").as_string();
  
 -            loadModelServiceCbGrp_ = this->create_callback_group(rclcpp::callback_group::CallbackGroupType::MutuallyExclusive);
 +            loadModelServiceCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
              loadModelService_ = this->create_service<deepracer_interfaces_pkg::srv::LoadModelSrv>("load_model",
                                                                                                    std::bind(&InferTask::InferenceNodeMgr::LoadModelHdl,
                                                                                                    this,
-@@ -63,7 +63,7 @@ namespace InferTask {
+@@ -69,7 +69,7 @@ namespace InferTask {
                                                                                                    ::rmw_qos_profile_default,
                                                                                                    loadModelServiceCbGrp_);
  
@@ -20,7 +20,7 @@ index 12628fd..672d3f5 100644
              setInferenceStateService_ = this->create_service<deepracer_interfaces_pkg::srv::InferenceStateSrv>("inference_state",
                                                                                                                 std::bind(&InferTask::InferenceNodeMgr::InferStateHdl,
                                                                                                                 this,
-@@ -143,11 +143,11 @@ namespace InferTask {
+@@ -154,11 +154,11 @@ namespace InferTask {
  
      private:
          /// ROS callback group for load model service.

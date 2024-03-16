@@ -57,3 +57,11 @@ dist/
 pkg-build/
 bundle_ws/*
 !bundle_ws/.rosinstall
+
+# Test module
+test/install/
+test/log/
+test/build/
+test/model/
+test/data/*
+!test/data/demo/

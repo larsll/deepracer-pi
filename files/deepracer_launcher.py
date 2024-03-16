@@ -111,7 +111,7 @@ def launch_setup(context, *args, **kwargs):
         executable='model_optimizer_node',
         name='model_optimizer_node',
         parameters=[{
-                'device': LaunchConfiguration("inference_device").perform(context)
+                'inference_engine': LaunchConfiguration("inference_engine").perform(context)
         }]
     )
     rplidar_node = Node(

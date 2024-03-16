@@ -45,7 +45,7 @@ pip3 install -U pyudev \
     unidecode \
     pyserial \
     "tensorflow" \
-    "numpy" \
+    "numpy>=1.16.6,<=1.23.4" \
     "protobuf" \
     "tensorboard" \
     "blinker==1.4" \

@@ -29,7 +29,7 @@ index 1a6d51e..55d1936 100644
      OUT_DIR = "--output_dir"
      INPUT_SHAPE = "--input_shape"
 diff --git a/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py b/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
-index 2fabe02..0090ced 100644
+index 2fabe02..7d8f387 100644
 --- a/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
 +++ b/model_optimizer_pkg/model_optimizer_pkg/model_optimizer_node.py
 @@ -179,7 +179,8 @@ class ModelOptimizerNode(Node):
@@ -65,7 +65,7 @@ index 2fabe02..0090ced 100644
              return self.run_optimizer_tflite(common_params, training_algorithm)
          else:
 -            return self.run_optimizer_mo("mo_tf.py", common_params,
-+            return self.run_optimizer_mo("mo  --use_new_frontend", common_params,
++            return self.run_optimizer_mo("mo", common_params,
                                           self.set_platform_param(tf_params, aux_inputs))
  
  

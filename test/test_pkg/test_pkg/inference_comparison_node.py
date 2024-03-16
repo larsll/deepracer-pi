@@ -369,7 +369,7 @@ class InferenceComparisonNode(Node):
                 self._frame_count['match'] += 1
             else:
                 self.get_logger().info(
-                    f"Picture {key} not in agreement  with actions ({self._results[key]['summary']['best']['tflite']['action']}, {self._results[key]['summary']['best']['ov']['action']}) at ({self._results[key]['summary']['best']['tflite']['value']:.5f}, {self._results[key]['summary']['best']['ov']['value']:.5f}).")
+                    f"Picture {key} not in agreement with actions ({self._results[key]['summary']['best']['tflite']['action']}, {self._results[key]['summary']['best']['ov']['action']}) at ({self._results[key]['summary']['best']['tflite']['value']:.5f}, {self._results[key]['summary']['best']['ov']['value']:.5f}).")
                 self._frame_count['mismatch'] += 1
 
         output['summary'] = self._frame_count

@@ -73,9 +73,12 @@ do
                      opt/aws/deepracer/camera/installed/lib
               cp $DIR/deps/geocam-bin-armhf/files/usr/bin/mxcam opt/aws/deepracer/camera/installed/bin
               cp $DIR/files/aws_deepracer-community.list etc/apt/sources.list.d/aws_deepracer.list
+              cp $DIR/files/otg_eth.sh opt/aws/deepracer/util/otg_eth.sh
+              cp $DIR/files/isc-dhcp-server opt/aws/deepracer/util/isc-dhcp-server
+              cp $DIR/files/deepracer_dhcp.conf opt/aws/deepracer/util/deepracer_dhcp.conf
               sed -i 's/Architecture: amd64/Architecture: arm64/' DEBIAN/control
               sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
-              sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
+              sed -i 's/pyclean -p aws-deepracer-util/ /' DEBIAN/prerm
               cd ..
               dpkg-deb --root-owner-group -b aws-deepracer-util
               dpkg-name -o aws-deepracer-util.deb

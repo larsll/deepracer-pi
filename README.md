@@ -50,7 +50,15 @@ To automatically start at boot do `sudo systemctl enable deepracer-core` and to 
 
 Some changes have been made to the code to enable access to GPIO as sysfs layout is different on the Raspberry Pi than on the custom Intel board.
 
-## PWM Outputs
+
+### Improvements
+
+- Stripped down OS
+- Runs the custom deepracer stack also seen in [deepracer-scripts](https://github.com/davidfsmith/deepracer-scripts).
+
+### Details
+
+**PWM Outputs**
 
 | Channel | Purpose          | Notes                                                                   |
 | ------- | ---------------- | ----------------------------------------------------------------------- |
@@ -75,18 +83,20 @@ Some changes have been made to the code to enable access to GPIO as sysfs layout
 
 LiPo can power both the board and car, 3 pin (balance lead) gets wired to VIN (black and red cables only) to power the board and RPi. The 2 pin power cable goes to the car as normal.
 
-**Improvements:**
-
-- Stripped down OS
-- Runs the custom deepracer stack also seen in [deepracer-scripts](https://github.com/davidfsmith/deepracer-scripts).
 
 **GPIO layout:**
 
 - `gpio1` - enables PWM (does not do anything, PWM is always on for the Waveshare board)
 - `gpio495`-`gpio504` - maps to PWM7 to PWM15 on the Hat, to control three RGB leds (those originally on the side of the board)
 
+**USB host mode:**
+To connect the USB-C port on the Raspberry Pi 4 to a USB on your computer, then you need to perform two changes:
+* Add `dtoverlay=dwc2,dr_mode=host` to your `/boot/firmware/config.txt`
+* Add `modules-load=dwc2,g_ether` to your `/boot/firmware/cmdline.txt`
+
+With this you will see a new network connect appear in Windows (and Mac?). The Raspberry Pi will have IP 10.0.0.1; you can connect to the console via `https://deepracer.aws`. This will require your computer to be disconnected from all other networks (given a DNS priority issue). SSH directly to the IP will work.
+
 ## What does not (yet) work
 
 - Battery gauge is not connected - red warning message persists
 - Device Info Node is looking in non-existent places - no real impact
-- OTG Network (USB Network) is disabled - requires testing

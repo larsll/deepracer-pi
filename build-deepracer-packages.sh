@@ -110,7 +110,7 @@ do
               sed -i "s/Version: .*/Version: $VERSION/" DEBIAN/control
               sed -i 's/python-apt/python3-apt/' DEBIAN/control
               sed -i '/Depends/ s/$/, gnupg/' DEBIAN/control
-              sed -i 's/pyclean/\/usr\/local\/bin\/pyclean/' DEBIAN/prerm
+              sed -i 's/pyclean -p aws-deepracer-core/\/usr\/local\/bin\/pyclean \/opt\/aws\/deepracer\/lib/' DEBIAN/prerm
               sed -i 's/ExecStop=\/opt\/aws\/deepracer\/util\/otg_eth.sh stop/KillSignal=2/' etc/systemd/system/deepracer-core.service
               rm -rf opt/aws/deepracer/lib/*
               cp $DIR/files/start_ros.sh opt/aws/deepracer

@@ -1,5 +1,5 @@
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
-index d0c7722..910d3f8 100755
+index d0c7722..fa1a446 100755
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/deepracer_systems_scripts_module/deepracer_systems_scripts_node.py
 @@ -46,6 +46,16 @@ class DeepracerSystemsScriptsNode(Node):
@@ -116,7 +116,7 @@ index c4ff558..76f73a3 100644
  
  SCHEDULE_CONFIG_UPDATE_CB = "schedule_config_update"
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
-index 587afeb..c4c48fa 100644
+index 587afeb..a567291 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/network_monitor_module/network_monitor_node.py
 @@ -200,6 +200,17 @@ class NetworkMonitorNode(Node):
@@ -181,23 +181,25 @@ index d1a6ff0..d69acbd 100644
      serial = serial.lower()
      serial = serial.replace(" ", "-")
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
-index dd6670d..06d862c 100644
+index dd6670d..68f884a 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_config.py
-@@ -24,7 +24,7 @@ GET_OTG_LINK_STATE_SERVICE_NAME = "get_otg_link_state"
- #########################################################################################
+@@ -25,7 +25,7 @@ GET_OTG_LINK_STATE_SERVICE_NAME = "get_otg_link_state"
  # OTG settings.
  
--ENABLE_OTG_PERIODIC_CHECK = True
-+ENABLE_OTG_PERIODIC_CHECK = False
- OTG_CHECK_PERIOD_IN_SECONDS = 2
+ ENABLE_OTG_PERIODIC_CHECK = True
+-OTG_CHECK_PERIOD_IN_SECONDS = 2
++OTG_CHECK_PERIOD_IN_SECONDS = 5
  
- OTG_STATE_DIRECTORY = os.path.join(os.sep, "sys", "kernel", "debug", "dwc3.0.auto")
+-OTG_STATE_DIRECTORY = os.path.join(os.sep, "sys", "kernel", "debug", "dwc3.0.auto")
+-OTG_LINK_STATE = "link_state"
++OTG_STATE_DIRECTORY = os.path.join(os.sep, "sys", "class", "net", "usb0")
++OTG_LINK_STATE = "operstate"
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
-index 3235515..481e4e5 100644
+index 3235515..444a4a4 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/otg_module/otg_control_node.py
-@@ -124,9 +124,12 @@ class OTGControlNode(Node):
+@@ -124,16 +124,19 @@ class OTGControlNode(Node):
      def __exit__(self, exc_type, exc_value, traceback):
          """Called when the object is destroyed.
          """
@@ -211,7 +213,49 @@ index 3235515..481e4e5 100644
  
      def check_otg_connection(self):
          """Wrapper function to schedule the otg_connection_change function whenver
-@@ -231,14 +234,18 @@ class OTGControlNode(Node):
+            there is a chagne in the host connecton status.
+         """
+         with utility.AutoLock(self.otg_guard):
+-            host_connected = "U0" in file_system_utils.read_line(
++            host_connected = "up" in file_system_utils.read_line(
+                                                     os.path.join(otg_config.OTG_STATE_DIRECTORY,
+                                                                  otg_config.OTG_LINK_STATE))
+             if host_connected != self.otg_connected:
+@@ -179,7 +182,6 @@ class OTGControlNode(Node):
+         """
+         # Setup connectivity from  Windows
+         usb0 = False
+-        usb1 = False
+ 
+         # Setup connectivity from Windows
+         if self.execute("ip link set usb0 up"):
+@@ -191,16 +193,6 @@ class OTGControlNode(Node):
+         if not usb0:
+                 self.get_logger().error("Ethernet Over OTG enable failed for Windows.")
+ 
+-        # Setup connectivity from Mac
+-        if self.execute("ip link set usb1 up"):
+-            if self.execute("ip addr add 10.0.1.1/30 dev usb1"):
+-                if self.execute("systemctl restart dnsmasq") and \
+-                   self.execute("systemctl restart isc-dhcp-server"):
+-                    usb1 = True
+-                    self.get_logger().info("Ethernet Over OTG enabled for MAC!")
+-        if not usb1:
+-                self.get_logger().error("Ethernet Over OTG enable failed for MAC.")
+-
+         return True
+ 
+     def disable_otg(self):
+@@ -208,8 +200,6 @@ class OTGControlNode(Node):
+         """
+         if not self.execute("ip link set usb0 down"):
+             self.get_logger().error("Ethernet Over OTG disable failed for Windows!")
+-        if not self.execute("ip link set usb1 down"):
+-            self.get_logger().error("Ethernet Over OTG disable failed for MAC!")
+         self.get_logger().info("Ethernet Over OTG disabled!!!")
+ 
+     def execute(self, cmd):
+@@ -231,14 +221,18 @@ class OTGControlNode(Node):
  
  
  def main(args=None):
@@ -252,7 +296,7 @@ index e9bb427..ac52ea0 100644
  MIN_TIME_BEFORE_REBOOT_IN_SECONDS = 10
  SOFTWARE_UPDATE_RETRY_SLEEP_IN_SECONDS = (30.0 * 15)
 diff --git a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
-index 7727458..4f0588c 100644
+index 7727458..8466664 100644
 --- a/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
 +++ b/deepracer_systems_pkg/deepracer_systems_pkg/software_update_module/software_update_node.py
 @@ -245,6 +245,18 @@ class SoftwareUpdateNode(Node):
@@ -274,11 +318,10 @@ index 7727458..4f0588c 100644
      def timer_callback(self):
          """Heartbeat function to keep the node alive.
          """
-@@ -760,16 +772,20 @@ class SoftwareUpdateNode(Node):
-         self.software_update_pct_publisher.publish(pct_obj)
+@@ -761,15 +773,19 @@ class SoftwareUpdateNode(Node):
  
  
--def main(args=None):
+ def main(args=None):
 -    rclpy.init(args=args)
 -    software_update_node = SoftwareUpdateNode()
 -    executor = MultiThreadedExecutor()
@@ -288,7 +331,6 @@ index 7727458..4f0588c 100644
 -    # when the garbage collector destroys the node object)
 -    software_update_node.destroy_node()
 -    rclpy.shutdown()
-+def main(args=None):
 +    try:
 +        rclpy.init(args=args)
 +        with SoftwareUpdateNode() as software_update_node:

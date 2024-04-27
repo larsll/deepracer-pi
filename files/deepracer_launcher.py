@@ -86,12 +86,18 @@ def launch_setup(context, *args, **kwargs):
         executable='device_info_node',
         name='device_info_node'
     )
+
+    battery_node_exec='battery_node'
+    if str2bool(LaunchConfiguration('battery_dummy').perform(context)):
+        battery_node_exec='battery_dummy_node'
+
     battery_node = Node(
         package='i2c_pkg',
         namespace='i2c_pkg',
-        executable='battery_node',
+        executable=battery_node_exec,
         name='battery_node'
     )
+    
     inference_node = Node(
         package='inference_pkg',
         namespace='inference_pkg',
@@ -231,5 +237,9 @@ def generate_launch_description():
                 name="logging_mode",
                 default_value="usbonly",
                 description="Enable the logging of results to ROS Bag on USB stick"),
+            DeclareLaunchArgument(
+                name="battery_dummy",
+                default_value="False",
+                description="Use static dummy for battery measurements"),
             OpaqueFunction(function=launch_setup)
         ])

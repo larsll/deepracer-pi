@@ -27,4 +27,4 @@ else
     INFERENCE_ENGINE='inference_engine:=TFLITE'
 fi
 
-ros2 launch deepracer_launcher deepracer_launcher.py ${INFERENCE_ENGINE} ${INFERENCE_DEVICE}
+ros2 launch deepracer_launcher deepracer_launcher.py ${INFERENCE_ENGINE} ${INFERENCE_DEVICE} battery_dummy:=True

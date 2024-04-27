@@ -53,6 +53,12 @@ git fetch origin pull/3/head:tflite
 git checkout tflite
 cd ..
 
+# https://github.com/aws-deepracer/aws-deepracer-i2c-pkg/pull/3
+cd aws-deepracer-i2c-pkg
+git fetch origin pull/3/head:dummy
+git checkout dummy
+cd ..
+
 # Resolve the dependanices
 rosdep install -i --from-path . --rosdistro humble -y
 

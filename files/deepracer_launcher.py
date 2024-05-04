@@ -103,6 +103,8 @@ def launch_setup(context, *args, **kwargs):
         namespace='inference_pkg',
         executable='inference_node',
         name='inference_node',
+        respawn=True,
+        respawn_delay=5,
         parameters=[{
                 'device': LaunchConfiguration("inference_device").perform(context),
                 'inference_engine': LaunchConfiguration("inference_engine").perform(context)

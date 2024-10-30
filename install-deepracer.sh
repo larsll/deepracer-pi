@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+
+# This script installs the necessary dependencies and software for the DeepRacer project on a Raspberry Pi.
+# It performs the following steps:
+# 1. Ensures the script is run with root privileges.
+# 2. Sets the working directory to the script's location.
+# 3. Adds the ROS 2 GPG key and repository to the system's sources list.
+# 4. Installs ROS Core, development tools, and other required packages.
+# 5. Initializes and updates rosdep for ROS 2 Humble.
+# 6. Updates Python build tools and utilities.
+# 7. Downloads and installs OpenVINO 2022.3.1.
+# 8. Installs TensorFlow and other Python dependencies.
+# 9. Copies AWS DeepRacer package sources and GPG key to the system.
+# 10. Installs AWS DeepRacer packages.
+# 11. Disables the deepracer-core service until it is ready to be used.
 set -e
 
 DEBIAN_FRONTEND=noninteractive

@@ -1,4 +1,34 @@
 #!/usr/bin/env bash
+
+# This script builds and packages AWS DeepRacer components for ARM64 architecture.
+# It supports the following packages:
+# - aws-deepracer-util
+# - aws-deepracer-device-console
+# - aws-deepracer-core
+# - aws-deepracer-sample-models
+
+# Usage:
+# ./build-deepracer-packages.sh [-p "package1 package2 ..."]
+
+# Options:
+# -p: Specify the packages to build. If not provided, the default packages will be built.
+
+# The script performs the following steps:
+# 1. Sets up the environment and directories.
+# 2. Copies necessary DeepRacer repository files.
+# 3. Clones the mxcam repository if not already present.
+# 4. Checks for missing packages and downloads them if necessary.
+# 5. Builds the specified packages for ARM64 architecture.
+
+# Each package build involves:
+# - Extracting the original AMD64 package.
+# - Modifying the package contents and control files for ARM64.
+# - Repacking the modified package.
+# - Moving the final package to the distribution directory.
+
+# Note:
+# - Ensure that the required files and directories (e.g., versions.json, files directory) are present.
+# - The script requires sudo privileges for certain operations.
 set -e
 
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"

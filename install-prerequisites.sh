@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
+
+# This script installs prerequisites for setting up a Raspberry Pi with Ubuntu.
+# It performs the following steps:
+# 1. Checks if the script is run with root privileges.
+# 2. Sets up the working directory.
+# 3. Stops and removes unattended-upgrades to prevent automatic updates during setup.
+# 4. Ensures the Ubuntu Universe repository is enabled.
+# 5. Installs necessary packages including software-properties-common, curl, locales, and others.
+# 6. Configures locale settings to en_US.UTF-8.
+# 7. Enables PWM / PCA9685 on I2C address 0x40.
+# 8. Switches the nameserver to use systemd-resolved.
+# 9. Configures and enables the firewall to allow OpenSSH.
+# 10. Installs additional tools and configures network management.
+# 11. Copies a custom NetworkManager configuration file.
+# 12. Disables systemd-networkd-wait-online service.
+# 13. Adjusts WiFi power save settings and network renderer.
+# 14. Restarts the network stack and applies netplan configuration.
+# 15. Provides instructions for enabling legacy camera support and rebooting the system.
 set -e
 
 export DEBIAN_FRONTEND=noninteractive

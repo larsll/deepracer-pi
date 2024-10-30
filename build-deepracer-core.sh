@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
+
+# This script sets up and builds the DeepRacer core on a Raspberry Pi.
+# It performs the following steps:
+# 1. Initializes the ROS environment and sets up necessary environment variables.
+# 2. Resets any changes in the git repositories to ensure a clean state.
+# 3. Applies specific changes from pull requests to various DeepRacer packages.
+# 4. Applies Raspberry Pi specific patches to the DeepRacer packages.
+# 5. Removes previous build artifacts to ensure a clean build.
+# 6. Copies a fixed version of the deepracer_launcher.py file.
+# 7. Builds the core DeepRacer packages using colcon.
+# 8. Builds additional logging packages using colcon.
 set -e
 
 export DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"

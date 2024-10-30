@@ -1,4 +1,17 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
+
+# This script sets up the build prerequisites for the DeepRacer project on a Raspberry Pi running Ubuntu.
+# It performs the following steps:
+# 1. Sets up the environment and directories.
+# 2. Configures locale settings.
+# 3. Ensures the Ubuntu Universe repository is enabled.
+# 4. Adds the ROS 2 GPG key and repository.
+# 5. Installs ROS Core, development tools, and other dependencies.
+# 6. Sets up a Python virtual environment and installs necessary Python packages.
+# 7. Installs TensorFlow and other Python dependencies.
+# 8. Compiles and installs OpenVINO.
+# 9. Installs DeepRacer scripts.
+# 10. Builds DeepRacer packages.
 set -e
 
 export DEBIAN_FRONTEND=noninteractive

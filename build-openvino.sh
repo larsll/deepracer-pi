@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+# This script builds and installs OpenVINO 2022.3.1 on an ARM64 architecture.
+# It performs the following steps:
+# 1. Sets the DEBIAN_FRONTEND to noninteractive to avoid prompts during package installation.
+# 2. Determines the directory of the script and sets it to the DIR variable.
+# 3. Clones the OpenVINO repository from GitHub into the deps directory.
+# 4. Updates and initializes the submodules within the OpenVINO repository.
+# 5. Installs the build dependencies for OpenVINO.
+# 6. Activates a Python virtual environment.
+# 7. Installs the required Python packages for building OpenVINO.
+# 8. Creates a build directory and navigates into it.
+# 9. Configures the build with CMake, specifying various options and paths.
+# 10. Compiles the OpenVINO source code using make with 4 parallel jobs.
+# 11. Installs the compiled OpenVINO binaries.
+# 12. Creates a tarball of the installed OpenVINO directory.
+# 13. Creates symbolic links to the installed OpenVINO directory for easier access.
 set -e
 
 export DEBIAN_FRONTEND=noninteractive

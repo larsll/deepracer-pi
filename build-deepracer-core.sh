@@ -15,6 +15,16 @@ source /opt/intel/openvino_2022/setupvars.sh
 # Change to build directory
 cd $DIR/bundle_ws
 
+# Undo checkouts / patches
+for pkg_dir in */; 
+do
+    cd $pkg_dir
+    if [ -d .git ]; then
+        git reset --hard
+    fi
+    cd ..
+done
+
 rosws update
 
 #######

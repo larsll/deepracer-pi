@@ -83,7 +83,7 @@ index b82b35e..eb78cfb 100644
 \ No newline at end of file
 +#endif
 diff --git a/ctrl_pkg/src/ctrl_node.cpp b/ctrl_pkg/src/ctrl_node.cpp
-index 78aabe4..4b62324 100644
+index 78aabe4..a17dae5 100644
 --- a/ctrl_pkg/src/ctrl_node.cpp
 +++ b/ctrl_pkg/src/ctrl_node.cpp
 @@ -68,7 +68,7 @@ namespace SysCtrl {
@@ -100,7 +100,7 @@ index 78aabe4..4b62324 100644
                                                                                                                 vehicleCtrlModesServiceCbGrp_);
  
 -            vehicleModeServiceCbGrp_ = this->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
-+            vehicleModeServiceCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
++            vehicleModeServiceCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
              setVehicleModeService_ = this->create_service<deepracer_interfaces_pkg::srv::ActiveStateSrv>(VEHICLE_STATE_SRV,
                                                                                                           std::bind(&SysCtrl::CtrlNodeMgr::stateHdl,
                                                                                                           this,
@@ -109,7 +109,7 @@ index 78aabe4..4b62324 100644
                                                                                                           ::rmw_qos_profile_default,
                                                                                                           vehicleModeServiceCbGrp_);
 -            activateVehicleServiceCbGrp_ = this->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
-+            activateVehicleServiceCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
++            activateVehicleServiceCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
              activateVehicleService_ = this->create_service<deepracer_interfaces_pkg::srv::EnableStateSrv>(ENABLE_STATE_SRV,
                                                                                                            std::bind(&SysCtrl::CtrlNodeMgr::ctrlStateHdl,
                                                                                                            this,
@@ -118,7 +118,7 @@ index 78aabe4..4b62324 100644
  
  
 -            loadModelCbGrp_ = this->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
-+            loadModelCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
++            loadModelCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
              loadModelService_ = this->create_service<deepracer_interfaces_pkg::srv::ModelStateSrv>(MODEL_STATE_SRV,
                                                                                                      std::bind(&SysCtrl::CtrlNodeMgr::loadModelHdl,
                                                                                                      this,
@@ -154,7 +154,7 @@ index 78aabe4..4b62324 100644
                                                                                                      vehicleLedCbGrp_);
  
 -            autonomousThrottleCbGrp_ = this->create_callback_group(rclcpp::callback_group::CallbackGroupType::Reentrant);
-+            autonomousThrottleCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
++            autonomousThrottleCbGrp_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
              setAutonomousThrottleService_ = this->create_service<deepracer_interfaces_pkg::srv::NavThrottleSrv>(AUTONOMOUS_THROTTLE_SRV,
                                                                                                                  std::bind(&SysCtrl::CtrlNodeMgr::autoThrottleHdl,
                                                                                                                  this,

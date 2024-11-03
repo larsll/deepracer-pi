@@ -1,3 +1,5 @@
+The effort has moved to [DeepRacer Custom](https://github.com/aws-deepracer-community/deepracer-custom)!
+
 # DeepRacer for Raspberry Pi 4
 
 This repository provides a port of the DeepRacer software stack to the Raspberry Pi 4. It runs
